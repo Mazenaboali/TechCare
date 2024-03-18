@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "973492584495",
+    "project_id": "techcare-b7588",
+    "storage_bucket": "techcare-b7588.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:973492584495:android:23a46498878238798006da",
+        "android_client_info": {
+          "package_name": "com.example.tech_care"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "973492584495-9gqd6ha3v9o1adt5ugj7h80mth4rntbv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtGDGYYsv2xg8RzT5qCM5CPCDTxRhp9K4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "973492584495-9gqd6ha3v9o1adt5ugj7h80mth4rntbv.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "973492584495-m8c9o7guci4v8ur21mitej4801jv2m64.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.techCare"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
