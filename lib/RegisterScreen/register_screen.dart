@@ -155,7 +155,7 @@ class _RegisterScreenState extends BaseState<RegisterScreen, RegisterViewModel>
                         CustomButtonAuth(
                             title: "Sign up",
                             onPressed: () {
-                            viewmodel.SignUp(formkey, email, password);
+                              SignUp();
                             }),
                         SizedBox(
                           height: 10,
@@ -194,7 +194,7 @@ class _RegisterScreenState extends BaseState<RegisterScreen, RegisterViewModel>
                         MaterialButton(
                           color: Colors.white,
                           onPressed: () {
-                            viewmodel.signInWithGoogle();
+                          signInWithGoogle();
                           },
                           shape: RoundedRectangleBorder(
                             side: BorderSide(color: Color(0xff023535)),
@@ -270,57 +270,11 @@ class _RegisterScreenState extends BaseState<RegisterScreen, RegisterViewModel>
   }
 
   void SignUp() async {
-    if (formkey.currentState?.validate() == false) {
-      return;
-    }
-    dialogUtils.ShowProgressDialog(context, 'Loading...');
-    print('*****************Registerrrrrrrrrrrrrr*********');
-    String? Newemail;
-    try {
-      ValidationUtils.isValidPhone(email.text) == true
-          ? Newemail = "t" + email.text + "@techCare.com"
-          : Newemail = email.text;
-      final credential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: Newemail,
-        password: password.text,
-      );
-      dialogUtils.hideDialog(context);
-      Navigator.pushReplacementNamed(context, HomeScreen.routeName);
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'email-already-in-use') {
-        dialogUtils.hideDialog(context);
-        dialogUtils.showMessage(
-            context, 'The account already exists forrrrr that Email',
-            posaction: 'ok');
-      } else {
-        print(ValidationUtils.isValidPhone(email.text));
-        print(Newemail ?? "222");
-        dialogUtils.showMessage(
-          context,
-          e.code,
-          posaction: 'ok',
-        );
-      }
-    }
+   viewmodel.SignUp(formkey, email, password);
   }
 
   Future signInWithGoogle() async {
-    // Trigger the authentication flow
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
-    // Create a new credential
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
-
-    // Once signed in, return the UserCredential
-
-
-    Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+    viewmodel.signInWithGoogle();
   }
 
   @override

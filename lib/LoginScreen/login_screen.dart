@@ -83,7 +83,7 @@ class _LoginScreenState extends BaseState<LoginScreen, LoginViewModel>
                         CustomButtonAuth(
                             title: "login",
                             onPressed: () {
-                              viewmodel.SignIn(formkey, email, password);
+                              SignIn();
                             }),
                         SizedBox(
                           height: 10,
@@ -122,7 +122,7 @@ class _LoginScreenState extends BaseState<LoginScreen, LoginViewModel>
                         MaterialButton(
                           color: Colors.white,
                           onPressed: () {
-                            viewmodel.signInWithGoogle();
+                            signInWithGoogle();
                           },
                           shape: RoundedRectangleBorder(
                             side: BorderSide(color: Color(0xff023535)),
@@ -198,61 +198,11 @@ class _LoginScreenState extends BaseState<LoginScreen, LoginViewModel>
   }
 
   void SignIn() async {
-    if (formkey.currentState?.validate() == false) {
-      return;
-    }
-    dialogUtils.ShowProgressDialog(context, 'Loading..');
-    try {
-      String Newemail;
-      ValidationUtils.isValidPhone(email.text) == true
-          ? Newemail = "t" + email.text + "@techCare.com"
-          : Newemail = email.text;
-      final credentials = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: Newemail, password: password.text);
-
-      dialogUtils.hideDialog(context);
-      Navigator.pushReplacementNamed(context, HomeScreen.routeName);
-    } on FirebaseAuthException catch (e) {
-      dialogUtils.hideDialog(context);
-      if (e.code == 'invalid-credential') {
-        dialogUtils.showMessage(
-          context,
-          'your account or password is incorrect',
-          posaction: 'ok',
-        );
-      } else {
-        dialogUtils.showMessage(
-          context,
-          e.code,
-          posaction: 'ok',
-        );
-      }
-    }
+   viewmodel.SignIn(formkey, email, password);
   }
 
   Future signInWithGoogle() async {
-    // Trigger the authentication flow
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
-
-    // Create a new credential
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
-
-    // Once signed in, return the UserCredential
-    UserCredential result = await FirebaseAuth.instance.signInWithCredential(credential);
-
-    if (result.user == null) {
-      print('not exists');
-    } else {
-      print(result.user!.displayName);
-      Navigator.pushReplacementNamed(context, HomeScreen.routeName);
-    }
+   viewmodel.signInWithGoogle();
   }
 
   @override
