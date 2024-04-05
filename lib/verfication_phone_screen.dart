@@ -111,7 +111,7 @@ class _VerficationPhoneScreenState extends State<VerficationPhoneScreen> {
       // Sign the user in (or link) with the credential
       await auth.signInWithCredential(credential).then((value) => (){
         if(value.user!=null){
-          Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+          Navigator.pushReplacementNamed(context, PatientHomeScreen.routeName);
         }
       });
     } catch (e) {

@@ -1,6 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:tech_care/Base/Base_state.dart';
 import 'package:tech_care/Components/custom_form_field_password.dart';
@@ -9,10 +7,8 @@ import 'package:tech_care/LoginScreen/Login_navigator.dart';
 import 'package:tech_care/LoginScreen/login_veiw_model.dart';
 import 'package:tech_care/RegisterScreen/register_screen.dart';
 import 'package:tech_care/dependency_injection.dart';
-import 'package:tech_care/utils/dialog_utils.dart';
 import '../Components/custom_button_auth.dart';
 import '../Components/custom_form_field.dart';
-import '../utils/validation_utils.dart';
 
 class LoginScreen extends StatefulWidget {
   static String routeName = 'loginScreen';
@@ -28,16 +24,16 @@ class _LoginScreenState extends BaseState<LoginScreen, LoginViewModel>
     // TODO: implement initviewmodel
     return LoginViewModel(AuthRepoInjection());
   }
+
   TextEditingController email = TextEditingController();
 
   TextEditingController password = TextEditingController();
   var formkey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    
     // TODO: implement build
     return ChangeNotifierProvider(
-      create: (_)=>viewmodel,
+      create: (_) => viewmodel,
       child: Stack(
         children: [
           Container(
@@ -198,18 +194,16 @@ class _LoginScreenState extends BaseState<LoginScreen, LoginViewModel>
   }
 
   void SignIn() async {
-   viewmodel.SignIn(formkey, email, password);
+    viewmodel.SignIn(formkey, email, password);
   }
 
   Future signInWithGoogle() async {
-   viewmodel.signInWithGoogle();
+    viewmodel.signInWithGoogle();
   }
 
   @override
   void gohome() {
     // TODO: implement gohome
-    Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+    Navigator.pushReplacementNamed(context, PatientHomeScreen.routeName);
   }
-
-
 }

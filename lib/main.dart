@@ -46,11 +46,11 @@ class _MyAppState extends State<MyApp> {
       title: 'Flutter Demo',
       initialRoute: FirebaseAuth.instance.currentUser == null
           ? LoginScreen.routeName
-          : HomeScreen.routeName,
+          : PatientHomeScreen.routeName,
       routes: {
         LoginScreen.routeName: (context) => LoginScreen(),
         RegisterScreen.routeName: (context) => RegisterScreen(),
-        HomeScreen.routeName: (context) => HomeScreen(),
+        PatientHomeScreen.routeName: (context) => PatientHomeScreen(),
         PatientOrDoctorScreen.routeName: (context) => PatientOrDoctorScreen(),
 
         PatientFormScreen.routeName: (context) => PatientFormScreen(),

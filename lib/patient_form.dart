@@ -223,7 +223,7 @@ class _PatientFormScreenState extends State<PatientFormScreen> {
                             Container(width: 190,),
                             InkWell(
                               onTap: (){
-                                Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+                                Navigator.pushReplacementNamed(context, PatientHomeScreen.routeName);
                               },
                               child: Container(
 
