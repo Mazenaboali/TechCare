@@ -1,11 +1,16 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:tech_care/Components/check_box_widget.dart';
 import 'package:tech_care/Components/custom_form_field.dart';
-import 'package:tech_care/HomeScreen/home_screen.dart';
+import 'package:tech_care/HomeScreen/patient_home_screen.dart';
+import 'package:tech_care/database/My%20database.dart';
+import 'package:tech_care/database/Patient.dart';
 
 class PatientFormScreen extends StatefulWidget {
   static String routeName = "patientform";
+  final user=FirebaseAuth.instance.currentUser;
+
+   String doctororpatient="patient";
 
   @override
   State<PatientFormScreen> createState() => _PatientFormScreenState();
@@ -15,6 +20,8 @@ class _PatientFormScreenState extends State<PatientFormScreen> {
   TextEditingController phonenumber =TextEditingController();
 
   TextEditingController Previoussergeries =TextEditingController();
+
+  TextEditingController Medication =TextEditingController();
   TextEditingController dateinput = TextEditingController();
 
   String? _dropdownvalue = 'Male';
@@ -27,7 +34,7 @@ class _PatientFormScreenState extends State<PatientFormScreen> {
   bool _isChecked2 = false;
   bool _isChecked3 = false;
   bool _isChecked4 = false;
-
+   String chronicdisease="";
   @override
   void initState() {
     // TODO: implement initState
@@ -132,6 +139,32 @@ class _PatientFormScreenState extends State<PatientFormScreen> {
                         Container(
                           height: 15,
                         ),
+                        TextFormField(
+                          minLines: 4,
+                          maxLines: 4,
+                          controller: Medication,
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Color(0xff023535)),
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(color: Color(0xff023535)),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              label: Text('Medications',
+                                style: TextStyle(
+                                  color: Color(0xff023535),
+                                ),
+                              )),
+                        ),
+                        Container(
+                          height: 15,
+                        ),
                         Padding(
                           padding: const EdgeInsets.all(5.0),
                           child: Text('Gender *', style: TextStyle(
@@ -207,10 +240,97 @@ class _PatientFormScreenState extends State<PatientFormScreen> {
                                   color:  Color(0xff023535),
 
                                 ),
-                                CheckBoxWidget(_isChecked1,'Diabse' ),
-                                CheckBoxWidget(_isChecked2,'Asthma' ),
-                                CheckBoxWidget(_isChecked3,'Heart disease' ),
-                                CheckBoxWidget(_isChecked4,'inflammatory bowel' ),
+                                Row(children: [
+                                Text(
+                                  'Diabse',
+                                  style: TextStyle(
+                                    color: Color(0xff008F8C),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                                Checkbox(
+                                  value:_isChecked1,
+                                  onChanged: (bool? value) {
+                                    setState(() {
+                                      _isChecked1 = value!;
+                                                   
+                                      print(_isChecked1);
+                                    });
+                                  },
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                )
+                              ]),
+                                Row(children: [
+                                  Text(
+                                    'Asthma',
+                                    style: TextStyle(
+                                      color: Color(0xff008F8C),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                  Checkbox(
+                                    value:_isChecked2,
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        _isChecked2 = value!;
+
+                                        print(_isChecked2);
+                                      });
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  )
+                                ]),
+                                Row(children: [
+                                  Text(
+                                    'Heart disease',
+                                    style: TextStyle(
+                                      color: Color(0xff008F8C),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                  Checkbox(
+                                    value:_isChecked3,
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        _isChecked3 = value!;
+
+                                        print(_isChecked3);
+                                      });
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  )
+                                ]),
+                                Row(children: [
+                                  Text(
+                                    'inflammatory bowel',
+                                    style: TextStyle(
+                                      color: Color(0xff008F8C),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                  Checkbox(
+                                    value:_isChecked4,
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        _isChecked4 = value!;
+                                        print(_isChecked4);
+                                      });
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  )
+                                ]),
                               ],
                             ),
                           ),
@@ -223,7 +343,8 @@ class _PatientFormScreenState extends State<PatientFormScreen> {
                             Container(width: 190,),
                             InkWell(
                               onTap: (){
-                                Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+                                insertPatient();
+                                Navigator.pushReplacementNamed(context, PatientHomeScreen.routeName);
                               },
                               child: Container(
 
@@ -261,18 +382,11 @@ class _PatientFormScreenState extends State<PatientFormScreen> {
                             ),
                           ],
                         )
-
-
-
-
-
-
                       ],
                     ),
                   ),
                 ),
               ],
-
             ));
   }
   String? Age="Birth Date";
@@ -298,6 +412,31 @@ class _PatientFormScreenState extends State<PatientFormScreen> {
         }
       });
     }
+}
+void insertPatient(){
+    if(_isChecked1){
+      chronicdisease+="diabse , ";
+    }
+    if(_isChecked2){
+      chronicdisease+="Asthma , ";
+    }
+    if(_isChecked3){
+      chronicdisease+="Heart disease , ";
+    }
+    if(_isChecked4){
+      chronicdisease+="inflammatory bowel , ";
+    }
+    print("**"+chronicdisease+"**");
+    Patient patient=Patient(email: widget.user!.email??"",
+        name: widget.user!.displayName??"",
+        age: dateinput.text,
+        medications: Medication.text,
+        chronicdisease: chronicdisease,
+        previoussurgeries: Previoussergeries.text,
+        phoneumber: phonenumber.text,
+        doctororpatient: widget.doctororpatient,
+        gender: _dropdownvalue??"");
+    MyDatabase.insertPatient(patient.email, patient);
 }
 
 

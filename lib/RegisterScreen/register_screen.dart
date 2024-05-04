@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tech_care/Base/Base_state.dart';
 import 'package:tech_care/Components/custom_form_field_password.dart';
-import 'package:tech_care/HomeScreen/home_screen.dart';
+import 'package:tech_care/HomeScreen/patient_home_screen.dart';
 import 'package:tech_care/LoginScreen/login_screen.dart';
 import 'package:tech_care/Patient_or_doctor_screen.dart';
 import 'package:tech_care/RegisterScreen/register_navigator.dart';

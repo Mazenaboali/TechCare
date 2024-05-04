@@ -4,7 +4,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:tech_care/Base/Base_state.dart';
 import 'package:tech_care/Components/custom_form_field_password.dart';
-import 'package:tech_care/HomeScreen/home_screen.dart';
+import 'package:tech_care/HomeScreen/patient_home_screen.dart';
 import 'package:tech_care/LoginScreen/Login_navigator.dart';
 import 'package:tech_care/LoginScreen/login_veiw_model.dart';
 import 'package:tech_care/RegisterScreen/register_screen.dart';
@@ -208,7 +208,7 @@ class _LoginScreenState extends BaseState<LoginScreen, LoginViewModel>
   @override
   void gohome() {
     // TODO: implement gohome
-    Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+    Navigator.pushReplacementNamed(context, PatientHomeScreen.routeName);
   }
 
 

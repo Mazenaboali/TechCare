@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 class DropDownButtonWidget extends StatelessWidget{
   String item;
-  DropDownButtonWidget(this.item);
+  String iconpath;
+  DropDownButtonWidget(this.item,this.iconpath);
 
   @override
   Widget build(BuildContext context) {
@@ -14,8 +15,7 @@ class DropDownButtonWidget extends StatelessWidget{
             Container(width: 7,),
             Column(
               children: [
-
-                Image.asset('assets/images/drop_down_icon/Dentistry.png',width: 30,height:30 ,),
+                Image.asset(iconpath,width: 30,height:30 ,),
                 Container(height: 10,)
               ],
             ),

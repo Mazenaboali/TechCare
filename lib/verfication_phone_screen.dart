@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:tech_care/HomeScreen/home_screen.dart';
+import 'package:tech_care/HomeScreen/patient_home_screen.dart';
 import 'package:tech_care/text_field_otp.dart';
 
 class VerficationPhoneScreen extends StatefulWidget {
@@ -111,7 +111,7 @@ class _VerficationPhoneScreenState extends State<VerficationPhoneScreen> {
       // Sign the user in (or link) with the credential
       await auth.signInWithCredential(credential).then((value) => (){
         if(value.user!=null){
-          Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+          Navigator.pushReplacementNamed(context, PatientHomeScreen.routeName);
         }
       });
     } catch (e) {

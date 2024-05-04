@@ -1,11 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:tech_care/Patient_Profile.dart';
 import 'package:tech_care/Patient_or_doctor_screen.dart';
+import 'package:tech_care/Qr%20code%20screen.dart';
 import 'package:tech_care/RegisterScreen/register_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:tech_care/doctor_form.dart';
 import 'package:tech_care/patient_form.dart';
-import 'HomeScreen/home_screen.dart';
+import 'HomeScreen/patient_home_screen.dart';
 import 'firebase_options.dart';
 import 'LoginScreen/login_screen.dart';
 
@@ -38,7 +40,6 @@ class _MyAppState extends State<MyApp> {
     super.initState();
   }
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -46,15 +47,15 @@ class _MyAppState extends State<MyApp> {
       title: 'Flutter Demo',
       initialRoute: FirebaseAuth.instance.currentUser == null
           ? LoginScreen.routeName
-          : HomeScreen.routeName,
+          : PatientHomeScreen.routeName,
       routes: {
         LoginScreen.routeName: (context) => LoginScreen(),
         RegisterScreen.routeName: (context) => RegisterScreen(),
-        HomeScreen.routeName: (context) => HomeScreen(),
+        PatientHomeScreen.routeName: (context) => PatientHomeScreen(),
         PatientOrDoctorScreen.routeName: (context) => PatientOrDoctorScreen(),
-
         PatientFormScreen.routeName: (context) => PatientFormScreen(),
-
+        PatientProfile.routeName: (context) => PatientProfile(),
+        QrCodeScreen.routeName: (context) => QrCodeScreen(),
         DoctorFormScreen.routeName: (context) => DoctorFormScreen(),
       },
     );
