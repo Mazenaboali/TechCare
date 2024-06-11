@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tech_care/doctor_form.dart';
-import 'package:tech_care/patient_form.dart';
+import 'package:tech_care/Patient/patient_form.dart';
 
 class PatientOrDoctorScreen extends StatelessWidget {
   static String routeName = "PatientorDoctorscreen";
@@ -8,96 +8,129 @@ class PatientOrDoctorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Stack(
-      children: [
-        Container(
-          width: double.infinity,
-          height: double.infinity,
-          child: Image.asset('assets/images/techCare_background.png',
-              fit: BoxFit.fill),
-        ),
-        Column(
-          children: [
-            Container(
-              height: 178,
-            ),
-            Image.asset(
-              'assets/images/sticker.png',
-              width: 256,
-              height: 256,
-            ),
-            Container(
-              height: 30,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: MaterialButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, PatientFormScreen.routeName);
-                },
-                color: Color(0xff023535),
+    return
+      Scaffold(
+        backgroundColor: Colors.white,
+        body:  Column(
+            children: [
+              Container(
+                height: 178,
+              ),
+              Image.asset(
+                'assets/images/sticker.png',
+                width: 118,
+                height: 105,
+              ),
+              Container(
+                height: 15,
+              ),
+              Text('Tech care',
+
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.w600,
+                  foreground: Paint()
+                    ..shader = LinearGradient(
+                      colors: [
+                        Color(0xFF023535),
+                        Color(0xFF069B9B),
+                      ],
+                    ).createShader(Rect.fromLTWH(0.0, 0.0, 200.0, 70.0)),
+
+              ),),
+              Container(
+                height: 30,
+              ),
+              Text('Let’s get started!',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.w700,
+                  foreground: Paint()
+                    ..shader = LinearGradient(
+                      colors: [
+                        Color(0xFF023535),
+                        Color(0xFF069B9B),
+                      ], // Gradient colors
+                    ).createShader(Rect.fromLTWH(0.0, 0.0, 200.0, 70.0)),
+
+                ),),
+              Container(
+                height: 10,
+              ),
+              Text('Login to Stay healthy and fit ',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400,
+                color: Color(0xffA1A1A1)
+
+                ),),
+              Container(
                 height: 60,
-                minWidth: 305,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
+              ),
+              MaterialButton(
+                  onPressed:(){
+                    Navigator.pushReplacementNamed(context, DoctorFormScreen.routeName);
+                  },
+                  child: Container(
 
-                //shape: const ShapeBorder(
-
-                //),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text(
-                      "Register as a patient",
-                      style: TextStyle(
-                        fontSize: 24,
-                        color: Colors.white,
+                    width: 328,
+                    height: 56,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(56),
+                      gradient: LinearGradient(
+                        colors: [
+                          Color(0xFF023535),
+                          Color(0xFF069B9B),
+                        ],
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
                       ),
                     ),
-                    Image.asset(
-                      'assets/images/patient.png',
-                      width: 27,
-                      height: 29,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: MaterialButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, DoctorFormScreen.routeName);
-                },
-                color: Color(0xff023535),
-                height: 60,
-                minWidth: 305,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                     child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text(
-                      "Register as a doctor",
-                      style: TextStyle(
-                        fontSize: 24,
-                        color: Colors.white,
+                    child: Center(
+                      child: Text('Doctor',
+                        style: TextStyle(
+
+                          color: Colors.white,
+                          fontSize: 14,
+
+                        ),
                       ),
                     ),
-                    Image.asset(
-                      'assets/images/doctor.png',
-                      width: 27,
-                      height: 29,
-                    ),
-                  ],
-                ),
+                  )
               ),
-            ),
-          ],
-        )
-      ],
-    );
+              Container(height: 20,),
+              MaterialButton(
+                  onPressed:(){
+                    Navigator.pushReplacementNamed(context, PatientFormScreen.routeName);
+                  },
+                  child: Container(
+
+                    width: 328,
+                    height: 56,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(56),
+                       border: Border.all(color: Color(0xff057878))
+                    ),
+
+                    child: Center(
+                      child: Text('patient',
+
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xff058989),
+                          fontSize: 16,
+
+
+                        ),
+                      ),
+                    ),
+                  )
+              ),
+            ],
+          ),
+      );
+
   }
 }

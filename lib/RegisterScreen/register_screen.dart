@@ -43,66 +43,103 @@ class _RegisterScreenState extends BaseState<RegisterScreen, RegisterViewModel>
     var selectedValue;
     return ChangeNotifierProvider(
       create: (_)=>viewmodel,
-      child: Stack(
-        children: [
-          Container(
-            width: double.infinity,
-            height: double.infinity,
-            child: Image.asset('assets/images/techCare_background.png',
-                fit: BoxFit.fill),
-          ),
+      child:
           Scaffold(
-            backgroundColor: Colors.transparent,
+
+            appBar: AppBar(
+              backgroundColor:Color(0xff057B7B) ,
+              toolbarHeight:94,
+              titleSpacing: 0,
+              title: GestureDetector(
+                child: Padding(
+                  padding: EdgeInsets.only(left: 16),
+                  child: Text(
+                    'Create Account',
+                    style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 24,
+                        color: Colors.white
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            backgroundColor: Colors.white,
             body: Padding(
               padding: const EdgeInsets.all(10.0),
               child: Form(
                 key: formkey,
                 child: SingleChildScrollView(
                   child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+
                         Container(
-                          height: 100,
+                          height: 20,
                         ),
-                        Row(
-                          children: [
-                            Container(
-                              width: 210,
-                            ),
-                            Text("Sign up",
-                                style: TextStyle(
-                                    fontFamily: 'Capriola',
-                                    fontSize: 36,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.white)),
-                          ],
-                        ),
+                        Text('Full Name',
+                          style: TextStyle(
+                            color: Color(0xff667085),
+                            fontSize: 12
+                        ),),
                         Container(
-                          height: 30,
+                          height: 10,
                         ),
+
                         CustomTextForm(
                           errorvalidationtext: 'Please enter your user name',
-                          hinttext: " Full name",
+                          hinttext: "Enter your Full Name",
                           mycontroller: username,
                           suffixicon: Text('')
                         ),
-                        Container(height: 15),
+                        Container(
+                          height: 10,
+                        ),
+                        Text('Email or Phone Number',
+                          style: TextStyle(
+                              color: Color(0xff667085),
+                              fontSize: 12
+                          ),),
+                        Container(
+                          height: 10,
+                        ),
                         CustomTextForm(
                           errorvalidationtext: 'Please enter your email or phone',
-                          hinttext: "ُEmail or phone",
+                          hinttext: "Enter Your ُEmail or phone",
                           mycontroller: email,
                           suffixicon: Icon(
                             Icons.email,
                             color: Color(0xff023535),
                           ),
                         ),
-                        Container(height: 15),
+                        Container(
+                          height: 10,
+                        ),
+                        Text('Password',
+                          style: TextStyle(
+                              color: Color(0xff667085),
+                              fontSize: 12
+                          ),),
+                        Container(
+                          height: 10,
+                        ),
                         CustomTextFormPassword(
                           errorvalidationtext: 'Please enter your password',
                           hinttext: "ُPassword",
                           mycontroller: password,
                         ),
-                        Container(height: 15),
+                        Container(
+                          height: 10,
+                        ),
+                        Text('Confirm Password',
+                          style: TextStyle(
+                              color: Color(0xff667085),
+                              fontSize: 12
+                          ),),
+                        Container(
+                          height: 10,
+                        ),
+
                         TextFormField(
                           validator: (text) {
                             if (text == null || text.trim().isEmpty) {
@@ -120,6 +157,10 @@ class _RegisterScreenState extends BaseState<RegisterScreen, RegisterViewModel>
                           controller: confirmpassword,
                           keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Color(0xffEAECF0)),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
                               suffixIcon: InkWell(
                                 onTap: () {
                                   securedpassword == true
@@ -129,24 +170,23 @@ class _RegisterScreenState extends BaseState<RegisterScreen, RegisterViewModel>
                                 },
                                 child: securedpassword == true
                                     ? Icon(
-                                        Icons.visibility_off,
-                                        color: Color(0xff023535),
-                                      )
-                                    : Icon(Icons.visibility,
-                                        color: Color(0xff023535)),
+                                  Icons.visibility_off,
+                                  color: Color(0xff667085),
+                                )
+                                    : Icon(Icons.visibility, color: Color(0xff667085)),
                               ),
                               border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(16),
+                                borderRadius: BorderRadius.circular(8),
                               ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                    const BorderSide(color: Color(0xff023535)),
-                                borderRadius: BorderRadius.circular(10),
+                              focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Color(0xffEAECF0))
                               ),
+                              filled: true,
+                              fillColor: Color(0xffF2F4F7),
                               label: Text(
-                                'Confirm password',
+                                'Confirm Password',
                                 style: TextStyle(
-                                  color: Color(0xff023535),
+                                  color: Color(0xff667085),
                                 ),
                               )),
                           obscureText: securedpassword,
@@ -164,8 +204,8 @@ class _RegisterScreenState extends BaseState<RegisterScreen, RegisterViewModel>
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Container(
-                              width: 70,
-                              color: Color(0xff023535),
+                              width: 90,
+                              color: Color(0xffA1A8B0),
                               height: 2,
                             ),
                             Container(
@@ -174,7 +214,7 @@ class _RegisterScreenState extends BaseState<RegisterScreen, RegisterViewModel>
                             Text(
                               "or",
                               style: TextStyle(
-                                color: Color(0xff023535),
+                                color: Color(0xffA1A8B0),
                                 fontSize: 16,
                               ),
                             ),
@@ -182,8 +222,8 @@ class _RegisterScreenState extends BaseState<RegisterScreen, RegisterViewModel>
                               width: 10,
                             ),
                             Container(
-                              width: 70,
-                              color: Color(0xff023535),
+                              width: 90,
+                              color: Color(0xffA1A8B0),
                               height: 2,
                             ),
                           ],
@@ -191,71 +231,73 @@ class _RegisterScreenState extends BaseState<RegisterScreen, RegisterViewModel>
                         SizedBox(
                           height: 10,
                         ),
-                        MaterialButton(
-                          color: Colors.white,
-                          onPressed: () {
-                          signInWithGoogle();
-                          },
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(color: Color(0xff023535)),
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          height: 60,
-                          minWidth: 320,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              Image.asset(
-                                'assets/images/google_icon.png',
-                                width: 40,
-                                height: 32,
-                              ),
-                              SizedBox(width: 12.0),
-                              Text(
-                                'Sign up with Google',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Color(0xff023535),
+                        Center(
+                          child: MaterialButton(
+                            color: Colors.white,
+                            onPressed: () {
+                              signInWithGoogle();
+                            },
+                            shape: RoundedRectangleBorder(
+                              side: BorderSide(color: Color(0xffD0D5DD)),
+                              borderRadius: BorderRadius.circular(32),
+                            ),
+                            height: 52,
+                            minWidth: 328,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Image.asset(
+                                  'assets/images/google_icon.png',
+                                  width: 15,
+                                  height: 15,
                                 ),
-                              ),
-                            ],
+                                SizedBox(width: 12.0),
+                                Text(
+                                  'Sign in with Google',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Color(0xff023535),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                         SizedBox(
-                          height: 30,
+                          height: 10,
+                        ),
+                        Text('By clicking register you agree to our Terms and Conditions of Use',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                color: Color(0xff344054)
+                        ),),
+                        SizedBox(
+                          height: 10,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              'Already have account ?',
+                              'Already have an account ? ',
                               style: TextStyle(
-                                fontSize: 16,
-                                color: Color(0xff023535),
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14,
+                                color: Color(0xff221F1F),
                               ),
                             ),
-                            Column(
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.pushReplacementNamed(
-                                        context, LoginScreen.routeName);
-                                  },
-                                  child: Text(
-                                    ' Sign in',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Color(0xff0FC2C0),
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pushReplacementNamed(
+                                    context, LoginScreen.routeName);
+                              },
+                              child: Text(
+                                ' Sign in',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xff407CE2),
+                                  fontWeight: FontWeight.bold,
                                 ),
-                                Container(
-                                  width: 60,
-                                  color: Color(0xff0FC2C0),
-                                  height: 2,
-                                )
-                              ],
+                              ),
                             ),
                           ],
                         ),
@@ -264,8 +306,7 @@ class _RegisterScreenState extends BaseState<RegisterScreen, RegisterViewModel>
               ),
             ),
           ),
-        ],
-      ),
+
     );
   }
 

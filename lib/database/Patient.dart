@@ -1,17 +1,21 @@
 class Patient {
-  String email;
-  String name;
-  String age;
-  String medications;
-  String previoussurgeries;
-  String chronicdisease;
-  String profileimagepath;
-  String phoneumber;
-  String doctororpatient;
-  String gender;
+  String? email;
+  String? name;
+  String? age;
+  String? medications;
+  String? previoussurgeries;
+  String? chronicdisease;
+  String? profileimagepath;
+  String? phoneumber;
+  String? doctororpatient;
+  String? gender;
+  String? weight;
+  String? height;
+  String? bloodtype;
+
 
   Patient({
-    this.profileimagepath = "no",
+    this.profileimagepath,
     required this.email,
     required this.name,
     required this.age,
@@ -20,7 +24,10 @@ class Patient {
     required this.previoussurgeries,
     required this.phoneumber,
     required this.doctororpatient,
-    required this.gender
+    required this.gender,
+    required this.height,
+    required this.weight,
+    required this.bloodtype
   });
 
   Patient.FromFirestore(Map<String, dynamic> data)
@@ -34,7 +41,10 @@ class Patient {
     profileimagepath: data['profileimagepath'],
     phoneumber: data['phoneumber'],
     doctororpatient: data['doctororpatient'],
-    gender: data['gender']
+    gender: data['gender'],
+    bloodtype: data['bloodtype'],
+    height: data['height'],
+    weight: data['weight']
   );
 
    Map<String, dynamic> ToFirestore() {
@@ -48,7 +58,10 @@ class Patient {
       'profileimagepath': profileimagepath,
       'phoneumber': phoneumber,
       'doctororpatient': doctororpatient,
-      'gender':gender
+      'gender':gender,
+      'bloodtype':bloodtype,
+      'height':height,
+      'weight':weight
     };
 
   }

@@ -9,7 +9,7 @@ class dialogUtils {
           return AlertDialog(
             content: Row(
               children: [
-                CircularProgressIndicator(),
+                CircularProgressIndicator(color: Color(0xff047676),),
                 SizedBox(
                   width: 10,
                 ),

@@ -1,352 +1,248 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:tech_care/Components/custom_button_auth.dart';
 import 'package:tech_care/LoginScreen/login_screen.dart';
-import 'package:tech_care/Patient_Profile.dart';
+import 'package:tech_care/Patient/Patient_Profile.dart';
+import 'package:tech_care/Patient/Qr%20code%20screen.dart';
+import 'package:tech_care/Patient/medical-history-patient-view.dart';
+import 'package:tech_care/doctor-profile.dart';
+import 'package:tech_care/splash_screen.dart';
+
 class PatientHomeScreen extends StatefulWidget {
-  static String routeName="PatientHomeScreen";
+  static String routeName = "PatientHomeScreen";
+  var user=FirebaseAuth.instance.currentUser;
 
   @override
   State<PatientHomeScreen> createState() => _PatientHomeScreenState();
 }
 
 class _PatientHomeScreenState extends State<PatientHomeScreen> {
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: Color(0xffD9D9D99),
-        appBar: AppBar(
-
-          title: Text('TechCare',
-            style: TextStyle(
-              fontFamily: 'Capriola',
-              color: Colors.white,
-              fontSize: 30,
-            ),),
-          shape: ContinuousRectangleBorder(
-            borderRadius: BorderRadius.vertical(
-              bottom: Radius.circular(30),),),
-          backgroundColor: Color(0xff01595B),
-          actions: <Widget>[
-            //SizedBox(height: 10,),
-            IconButton(
-              icon: Image.asset('assets/images/search-icon.png',
-                width:30 ,
-                height: 30,
-                color: Colors.white,
-              ),
-              onPressed: () {
-              },
-            ),
-            //SizedBox(height: 10,),
-            IconButton(
-              icon: Image.asset('assets/images/chat-icon.png',
-                width:30 ,
-                height: 30,
-                color: Colors.white,
-              ),
-              onPressed: () {
-
-              },
-            ),
-            IconButton(
-              icon:Image.asset('assets/images/profile-icon.png',
-                width:30 ,
-                height: 30,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                Navigator.pushNamed(context, PatientProfile.routeName);
-              },
-            ),
-
-            IconButton(onPressed: ()async{
-              await FirebaseAuth.instance.signOut();
-              Navigator.pushReplacementNamed(context,LoginScreen.routeName);
-            }, icon: Icon(Icons.logout))
-
-          ],
-
-
-
-
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Center(
-                    child: Container(
-
-                      height: 340,
-                      width: 500,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(16)
+          backgroundColor: Color(0xffD9D9D99),
+          bottomNavigationBar: BottomAppBar(
+            elevation: 0.1,
+            color: Colors.white,
+            height:100,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    IconButton(
+                      icon: Image.asset(
+                        'assets/images/filled-home-icon.png',
+                        height: 24,
+                        width: 24,
                       ),
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              //mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Image.asset("assets/images/person.png",
-                                  height: 30,
-                                  width: 30,),
-                                SizedBox(width: 10,),
-                                Text("Dr/Loren",
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    color: Color(0xff01595B),
-                                    //height: 19,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-
-                              ],
-
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: [
-                                Icon(Icons.location_on_outlined,
-                                  color: Color(0xff666666),),
-                                SizedBox(width: 10,),
-                                Text("221 Baker street ,London",
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    color: Color(0xff666666),
-                                    //height: 19,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-
-                              ],
-
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              //mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Icon(Icons.access_time_outlined,
-                                  color: Color(0xff666666),),
-                                SizedBox(width: 10,),
-                                Text("12th Feb 2024",
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    color: Color(0xff666666),
-                                    //height: 19,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-
-                              ],
-
-                            ),
-
-                          ),
-                          Divider( // إضافة الخط هنا
-                            color: Color(0xff666666),
-                            thickness: 1, // يمكنك تعديل سماكة الخط حسب الحاجة
-                            indent: 20, //
-                            endIndent: 20,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-
-                              children: [
-                                SizedBox(width: 10,),
-                                Text("summary about prescription , report,\nmedicine, medical analysis, x-ray,\netc....\n",
-                                  style: TextStyle(
-                                    color: Color(0xff01595B),
-                                    fontSize: 15,
-                                  ),),
-
-                              ],
-                            ),
-                          ),
-
-                          MaterialButton(onPressed: () {
-
-                          },
-                            color: Color(0xff01595B),
-                            height: 36,
-                            minWidth: 173,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            child: Text("View details",
-                              style: TextStyle(
-                                fontSize: 20,
-
-                                color: Colors.white,
-                              ),),
-                          ),
-
-
-                        ],
-                      ),
+                      onPressed: () {
+                        Navigator.pushReplacementNamed(context, PatientHomeScreen.routeName);
+                      },
                     ),
-                  )
-              ),
-              //SizedBox(height: 10,),
-              Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Center(
-                    child: Container(
-
-                      height: 400,
-                      width: 500,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(16)
-                      ),
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              //mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Image.asset("assets/images/person.png",
-                                  height: 30,
-                                  width: 30,),
-                                SizedBox(width: 10,),
-                                Text("Dr/Loren",
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    color: Color(0xff01595B),
-                                    //height: 19,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-
-                              ],
-
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: [
-                                Icon(Icons.location_on_outlined,
-                                  color: Color(0xff666666),),
-                                SizedBox(width: 10,),
-                                Text("221 Baker street ,London",
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    color: Color(0xff666666),
-                                    //height: 19,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-
-                              ],
-
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              //mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Icon(Icons.access_time_outlined,
-                                  color: Color(0xff666666),),
-                                SizedBox(width: 10,),
-                                Text("12th Feb 2024",
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    color: Color(0xff666666),
-                                    //height: 19,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-
-                              ],
-
-                            ),
-
-                          ),
-                          Divider( // إضافة الخط هنا
-                            color: Color(0xff666666),
-                            thickness: 1, // يمكنك تعديل سماكة الخط حسب الحاجة
-                            indent: 20, //
-                            endIndent: 20,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-
-                              children: [
-                                SizedBox(width: 10,),
-                                Text("summary about prescription , report,\nmedicine, medical analysis, x-ray,\netc....\n",
-                                  style: TextStyle(
-                                    color: Color(0xff01595B),
-                                    fontSize: 15,
-                                  ),),
-
-                              ],
-                            ),
-                          ),
-
-                          MaterialButton(onPressed: () {
-
-                          },
-                            color: Color(0xff01595B),
-                            height: 36,
-                            minWidth: 173,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            child: Text("View details",
-                              style: TextStyle(
-                                fontSize: 20,
-
-                                color: Colors.white,
-                              ),),
-                          ),
-
-
-                        ],
-                      ),
-                    ),
-                  )
-              ),
-              SizedBox(height: 10,),
-              Container(
-                child: MaterialButton(onPressed: () {
-                },
-                  color: Color(0xff023535),
-                  height: 47,
-                  minWidth: 280,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Text("Add new examination",
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.white,
-                    ),),
+                    Text(
+                      'home',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12,
+                          color: Color(0xff058383)),
+                    )
+                  ],
                 ),
-              )
-            ],
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    IconButton(
+                      icon: Image.asset(
+                        'assets/images/chat-icon.png',
+                        height: 24,
+                        width: 24,
+                      ),
+                      onPressed: () {
+
+                      },
+                    ),
+                    Text(
+                      'Chat',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12,
+                          color: Color(0xff7A7979)),
+                    )
+                  ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    IconButton(
+                      icon: Image.asset(
+                        'assets/images/notification-icon.png',
+                        height: 24,
+                        width: 24,
+                      ),
+                      onPressed: () {},
+                    ),
+                    Text(
+                      'Notification',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12,
+                          color: Color(0xff7A7979)),
+                    )
+                  ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    IconButton(
+                      icon: Image.asset(
+                        'assets/images/profile-icon.png',
+                        height: 24,
+                        width: 24,
+                      ),
+                      onPressed: () {
+                        Navigator.pushReplacementNamed(context, PatientProfile.routeName);
+                      },
+                    ),
+                    Text(
+                      'Profile',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12,
+                          color: Color(0xff7A7979)),
+                    )
+                  ],
+                ),
+              ],
+            ),
           ),
-        ),
+          body: Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text('Welcome !',style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 32,
+                  fontWeight: FontWeight.w600,
+                )),
+                Text(widget.user!.displayName??"",style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w600,
+                )),
+                Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(24),topRight: Radius.circular(24))
+                  ),
+                  width: double.infinity,
+                  height: 450,
+                  child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Image.asset('assets/images/percentage-container.png',),
+                    ),
+                    Container(height: 50,),
+                    MaterialButton(
+                        onPressed:(){
+                               Navigator.pushNamed(context,MedicalHistoryPatientViewScreen.routeName );
+                        },
+                        child: Container(
+                          width: 328,
+                          height: 56,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(32),
+                            gradient: LinearGradient(
+                              colors: [
+                                Color(0xFF023535),
+                                Color(0xFF069B9B),
+                              ],
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                            ),
+                          ),
+                          child: Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text('Medical history',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                Container(width: 20,),
+                                Image.asset('assets/images/medical-history-icon.png',width: 24,height: 24,)
+                              ],
+                            ),
+                          ),
+                        )
+                    ),
+                    Container(height: 50,),
+                    MaterialButton(
+                        onPressed:(){
+                          Navigator.pushNamed(context, QrCodeScreen.routeName);
+                        },
+                        child: Container(
+                          width: 328,
+                          height: 56,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(32),
+                            gradient: LinearGradient(
+                              colors: [
+                                Color(0xFF023535),
+                                Color(0xFF069B9B),
+                              ],
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                            ),
+                          ),
+                          child: Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text('Qr Code',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                Container(width: 20,),
+                                Image.asset('assets/images/scancode-icon.png',width: 24,height: 24,)
+                              ],
+                            ),
+                          ),
+                        )
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    CustomButtonAuth(title: 'Log out',onPressed: ()async{
 
-
-      ),
-
-
+                      await FirebaseAuth.instance.signOut();
+                      Navigator.pushReplacementNamed(context,LoginScreen.routeName);
+                    },)
+                  ],
+                  ),
+                )
+              ],
+            ),
+              decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Color(0xff023535), // Start color
+                Color(0xff069B9B), // End color
+              ],
+            ),
+          ))),
 
     );
-
-
   }
 }

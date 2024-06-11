@@ -36,8 +36,8 @@ class _CustomTextFormPasswordState extends State<CustomTextFormPassword> {
 
       decoration: InputDecoration(
           enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Color(0xff023535)),
-            borderRadius: BorderRadius.circular(16),
+            borderSide: BorderSide(color: Color(0xffEAECF0)),
+            borderRadius: BorderRadius.circular(8),
           ),
           suffixIcon: InkWell(
             onTap: () {
@@ -49,21 +49,22 @@ class _CustomTextFormPasswordState extends State<CustomTextFormPassword> {
             child: securedpassword == true
                 ? Icon(
                     Icons.visibility_off,
-                    color: Color(0xff023535),
+                    color: Color(0xff667085),
                   )
-                : Icon(Icons.visibility, color: Color(0xff023535)),
+                : Icon(Icons.visibility, color: Color(0xff667085)),
           ),
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(8),
           ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: Color(0xff023535)),
-            borderRadius: BorderRadius.circular(10),
+          focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Color(0xffEAECF0))
           ),
+          filled: true,
+          fillColor: Color(0xffF2F4F7),
           label: Text(
             widget.hinttext,
             style: TextStyle(
-              color: Color(0xff023535),
+              color: Color(0xff667085),
             ),
           )),
       obscureText: securedpassword,

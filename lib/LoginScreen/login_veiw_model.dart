@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:tech_care/Base/Base_view_model.dart';
 import 'package:tech_care/LoginScreen/Login_navigator.dart';
+import 'package:tech_care/database/My%20database.dart';
+import 'package:tech_care/database/Patient.dart';
 
 import '../Reposatiory/auth_reposatiory_contract.dart';
 import '../utils/validation_utils.dart';
@@ -23,9 +25,26 @@ class LoginViewModel extends BaseViewModel<LoginNavigator> {
           ? Newemail = "t" + email.text + "@techCare.com"
           : Newemail = email.text;
       await authReposaitory.SignIn(Newemail, password.text);
-      navigator?.HideDialog();
+      print(Newemail);
+      var data =  await MyDatabase.getPatientData(Newemail);
+      print('xxxx'+data.toString()+'xxxxx');
+      print(data?.doctororpatient);
+      if(data==null)
+        {
+          print('a7aa');
+        }
+      if(data==null){
+        navigator?.HideDialog();
+        navigator?.DoctorHome();
+      }
+      else {
+        print('a7eeee');
+        navigator?.HideDialog();
+        navigator?.PatientHome();
+      }
 
-      navigator?.gohome();
+
+
     } on FirebaseAuthException catch (e) {
       navigator?.HideDialog();
       if (e.code == 'invalid-credential') {
@@ -42,8 +61,14 @@ class LoginViewModel extends BaseViewModel<LoginNavigator> {
     if (user == null) {
       navigator?.ShowMessage('not exists');
     } else {
-      var username = await user.displayName;
-      navigator?.gohome();
+      Patient? data =  await MyDatabase.getPatientData(user.email??" ");
+      if(data?.doctororpatient=='patient'){
+        navigator?.PatientHome();
+      }
+      else if(data?.doctororpatient==null){
+        navigator?.DoctorHome();
+      }
+
     }
   }
 }

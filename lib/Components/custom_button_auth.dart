@@ -7,22 +7,33 @@ class CustomButtonAuth extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialButton(
-      onPressed:onPressed,
+    return Center(
+      child: MaterialButton(
+        onPressed:onPressed,
+        child: Container(
+          width: 328,
+          height: 48,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(32),
+            gradient: LinearGradient(
+              colors: [
+                Color(0xFF023535),
+                Color(0xFF069B9B),
+              ],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+            ),
+          ),
+          child: Center(
+            child: Text(title,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 14,
 
-      color: Color(0xff023535),
-      height: 60,
-      minWidth: 320,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Text(
-        title,
-        style: TextStyle(
-          fontWeight: FontWeight.w700,
-          fontSize: 24,
-          color: Colors.white,
-        ),
+              ),
+            ),
+          ),
+        )
       ),
     );
   }
