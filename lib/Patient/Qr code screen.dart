@@ -13,7 +13,7 @@ class _QrCodeScreenState extends State<QrCodeScreen> {
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
-          backgroundColor: Color(0xffD9D9D99),
+          backgroundColor: Colors.white,
           body: Center(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,7 +46,7 @@ class _QrCodeScreenState extends State<QrCodeScreen> {
                     indent: 18, //
                     endIndent: 18,
                   ),
-                  SizedBox(height: 70,),
+                  SizedBox(height: 70,)   ,
                   Center(
                     child: QrImageView(data: widget.user?.email??"",
                       version: QrVersions.auto,

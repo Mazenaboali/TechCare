@@ -54,6 +54,8 @@ class dialogUtils {
         context: context,
         builder: (builcontext) {
           return AlertDialog(
+            backgroundColor: Colors.white,
+
             content: Text(title),
             actions: actions,
           );

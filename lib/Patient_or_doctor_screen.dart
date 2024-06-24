@@ -1,12 +1,19 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tech_care/doctor_form.dart';
 import 'package:tech_care/Patient/patient_form.dart';
 
 class PatientOrDoctorScreen extends StatelessWidget {
   static String routeName = "PatientorDoctorscreen";
+   String username;
+   var user=FirebaseAuth.instance.currentUser;
+  PatientOrDoctorScreen(this.username);
 
   @override
   Widget build(BuildContext context) {
+    if(username==""){
+       username=user?.displayName??"_";
+    }
     // TODO: implement build
     return
       Scaffold(
@@ -71,7 +78,10 @@ class PatientOrDoctorScreen extends StatelessWidget {
               ),
               MaterialButton(
                   onPressed:(){
-                    Navigator.pushReplacementNamed(context, DoctorFormScreen.routeName);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => DoctorFormScreen(name: username)));;
                   },
                   child: Container(
 
@@ -103,7 +113,10 @@ class PatientOrDoctorScreen extends StatelessWidget {
               Container(height: 20,),
               MaterialButton(
                   onPressed:(){
-                    Navigator.pushReplacementNamed(context, PatientFormScreen.routeName);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>PatientFormScreen(username)));
                   },
                   child: Container(
 

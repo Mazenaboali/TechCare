@@ -1,8 +1,9 @@
+
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tech_care/database/Doctor.dart';
 import 'package:tech_care/database/Patient.dart';
 import 'package:tech_care/database/examination.dart';
-import 'package:tech_care/utils/date%20utils.dart';
 
 class MyDatabase {
   static void insertPatient(String document, Patient patient) async {
@@ -40,6 +41,12 @@ class MyDatabase {
     final patient = docSnap.data();
     return patient;
   }
+  static Stream<QuerySnapshot<Map<String,dynamic>>> getMessages()  {
+   var x=   FirebaseFirestore.instance
+        .collection('messages')
+        .orderBy('timestamp', descending: true).snapshots();
+    return x;
+  }
 
   static Future<Doctor?> getDoctorData(String document) async {
     var db = FirebaseFirestore.instance;
@@ -56,7 +63,6 @@ class MyDatabase {
 
   static void insertPatientExamination(String collection,String document, Examination examination)async{
 
-
     var db = FirebaseFirestore.instance;
     var ref = db
         .collection(collection)
@@ -68,14 +74,15 @@ class MyDatabase {
         fromFirestore: (snapshot, options) =>
             Examination.FromFirestore(snapshot.data()!),
         toFirestore: (examination, options) => examination.ToFirestore());
+      examination.id=ref.doc().id;
       await ref.add(examination);
 
   }
 
-  static Future<List<Examination>> getExaminations(String document)async{
+  static Future<List<Examination>> getExaminations(String collection,String document)async{
     var db = FirebaseFirestore.instance;
     var ref = db
-        .collection('patient')
+        .collection(collection)
         .withConverter<Patient>(
         fromFirestore: (snapshot, options) =>
             Patient.FromFirestore(snapshot.data()!),

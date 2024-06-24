@@ -17,7 +17,7 @@ import '../Components/custom_form_field.dart';
 
 class RegisterScreen extends StatefulWidget {
   static String routeName = 'RegisterScreen';
-
+  var user=FirebaseAuth.instance.currentUser;
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
 }
@@ -253,7 +253,7 @@ class _RegisterScreenState extends BaseState<RegisterScreen, RegisterViewModel>
                                 ),
                                 SizedBox(width: 12.0),
                                 Text(
-                                  'Sign in with Google',
+                                  'Sign up with Google',
                                   style: TextStyle(
                                     fontSize: 16,
                                     color: Color(0xff023535),
@@ -321,7 +321,22 @@ class _RegisterScreenState extends BaseState<RegisterScreen, RegisterViewModel>
   @override
   void PatietDoctorScreen() {
     // TODO: implement PatietDoctorScreen
-    Navigator.pushReplacementNamed(context, PatientOrDoctorScreen.routeName);
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => PatientOrDoctorScreen(username.text)))
+    ;
+
+  }
+
+  @override
+  void PatientDoctorScreenGmail(String displayName) {
+    // TODO: implement PatientDoctorScreenGmail
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => PatientOrDoctorScreen("")));
+
 
   }
 

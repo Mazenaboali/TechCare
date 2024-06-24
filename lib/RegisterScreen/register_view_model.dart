@@ -47,8 +47,7 @@ class RegisterViewModel extends BaseViewModel<RegisterNavigator> {
       navigator?.ShowMessage('not exists');
     } else {
       var username = await user.displayName;
-
-      navigator?.PatietDoctorScreen();
+      navigator?.PatientDoctorScreenGmail(username??"_");
     }
   }
 }

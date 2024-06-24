@@ -2,14 +2,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:tech_care/Chat/chats-screen.dart';
 import 'package:tech_care/Components/custom_button_auth.dart';
 import 'package:tech_care/Doctor/examination-doctor-view.dart';
+import 'package:tech_care/Doctor/medical-history-of-the-patient-with-other-doctor.dart';
 import 'package:tech_care/LoginScreen/login_screen.dart';
 import 'package:tech_care/doctor-profile.dart';
 import 'package:tech_care/examination_form.dart';
 class DoctorHomeScreen extends StatefulWidget {
   static String routeName="DoctorHomeScreen";
-
+  String identifyUser="doctor";
   @override
   State<DoctorHomeScreen> createState() => _DoctorHomeScreenState();
 }
@@ -63,34 +65,19 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                         width: 24,
                       ),
                       onPressed: () {
-
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) =>
+                                ChatsScreen('doctor')
+                            )
+                        );
                       },
                     ),
                     Text(
                       'Chat',
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
-                          fontSize: 12,
-                          color: Color(0xff7A7979)),
-                    )
-                  ],
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    IconButton(
-                      icon: Image.asset(
-                        'assets/images/notification-icon.png',
-                        height: 24,
-                        width: 24,
-                      ),
-                      onPressed: () {},
-                    ),
-                    Text(
-                      'Notification',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12,
+                         fontSize: 12,
                           color: Color(0xff7A7979)),
                     )
                   ],
@@ -109,7 +96,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                       },
                     ),
                     Text(
-                      'Chat',
+                      'profile',
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 12,
@@ -123,12 +110,27 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
           body: Container(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Welcome !',style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 32,
-                    fontWeight: FontWeight.w600,
-                  )),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20,bottom: 5),
+                    child: Text('Welcome !',style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 32,
+                      fontWeight: FontWeight.w600,
+                    )),
+
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20,bottom: 50),
+                    child: Text('How is it going today ?',style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                    )),
+
+                  ),
+
 
                   Container(
                     decoration: BoxDecoration(
@@ -217,13 +219,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                               ),
                             )
                         ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        CustomButtonAuth(title: 'Log out',onPressed: ()async{
-                          await FirebaseAuth.instance.signOut();
-                          Navigator.pushReplacementNamed(context,LoginScreen.routeName);
-                        },)
+
                       ],
                     ),
                   )
@@ -234,8 +230,8 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    Color(0xff023535), // Start color
-                    Color(0xff069B9B), // End color
+                    Color(0xff023535),
+                    Color(0xff069B9B),
                   ],
                 ),
               ))),
@@ -247,8 +243,6 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
   Future<void> scanCode()async{
     String barcodeScanRes;
     try{
-
-
       barcodeScanRes= await FlutterBarcodeScanner.scanBarcode('#ff6666',
           "Cancel",
           true,
@@ -260,7 +254,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
       _scanresult=barcodeScanRes;
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => ExaminationForm(_scanresult)),
+        MaterialPageRoute(builder: (context) => MedicalHistoryOfThePatientWithOtherDoctorScreen(qrcoderesult: _scanresult)),
       );
 
     });

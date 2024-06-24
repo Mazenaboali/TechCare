@@ -15,6 +15,15 @@ class MyDataProvider with ChangeNotifier{
      doctordata =await MyDatabase.getDoctorData(doctordocument);
     notifyListeners();
    }
+   Future<void> fetchDoctorData({required String doctordocument})async{
+     doctordata =await MyDatabase.getDoctorData(doctordocument);
+     notifyListeners();
+   }
+   Future<void> fetchPatientData({required String patientdocument,})async{
+     patientdata=await MyDatabase.getPatientData(patientdocument);
+     notifyListeners();
+   }
+
 
    void uploadPrescriptionState(){
      uploadprescriptionState=true;

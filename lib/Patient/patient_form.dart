@@ -9,9 +9,13 @@ import 'package:tech_care/Components/custom_form_field.dart';
 import 'package:tech_care/HomeScreen/patient_home_screen.dart';
 import 'package:tech_care/database/My%20database.dart';
 import 'package:tech_care/database/Patient.dart';
+import 'package:tech_care/utils/validation_utils.dart';
 
 class PatientFormScreen extends StatefulWidget {
   static String routeName = "PatientFormScreen";
+  String name;
+
+  PatientFormScreen(this.name);
 
   final user = FirebaseAuth.instance.currentUser;
   String profileimagepath = "";
@@ -51,8 +55,9 @@ class _PatientFormScreenState extends State<PatientFormScreen> {
     // TODO: implement initState
     super.initState();
     dateinput.text = "";
+    print(widget.name);
   }
-
+  var formkey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     false;
@@ -105,13 +110,19 @@ class _PatientFormScreenState extends State<PatientFormScreen> {
                     onPressed: () {
                       getImage();
                     },
-                    child: Text(
-                      'Edit',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 12,
-                        color: Color(0xff7A7979),
-                      ),
+                    child: Row(
+                      children: [
+                        Image.asset('assets/images/gallery-icon.png',width: 20,height: 20,),
+                        Container(width: 10,),
+                        Text(
+                          'Edit',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 12,
+                            color: Color(0xff7A7979),
+                          ),
+                        ),
+                      ],
                     ),
                     color: Colors.white,
                     height: 42,
@@ -133,410 +144,437 @@ class _PatientFormScreenState extends State<PatientFormScreen> {
                   padding: const EdgeInsets.all(8),
                   child: Container(
                     padding: EdgeInsets.zero,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          "  Phone number",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 12,
-                              color: Color(0xff667085)),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Container(
-                          width: 328,
-                          height: 48,
-                          padding: EdgeInsets.zero,
-                          decoration: BoxDecoration(
-                            color: Color(0xFFF2F4F7),
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
+                    child: Form(
+                      key: formkey,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            "  Phone number",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 12,
+                                color: Color(0xff667085)),
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Container(
+                            width: 328,
+                            height: 48,
+                            padding: EdgeInsets.zero,
+                            decoration: BoxDecoration(
                               color: Color(0xFFF2F4F7),
-                              width: 1,
-                            ),
-                          ),
-                          child: TextFormField(
-                            onTap: () {},
-                            controller: phonenumber,
-                            keyboardType: TextInputType.phone,
-                            decoration: InputDecoration(
-                              hintText: 'Phone number',
-                              hintStyle: TextStyle(
-                                color: Color(0xff667085),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Color(0xFFF2F4F7)),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                    const BorderSide(color: Color(0xffEAECF0)),
-                                borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(
+                                color: Color(0xFFF2F4F7),
+                                width: 1,
                               ),
                             ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Text(
-                          "  Age",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 12,
-                              color: Color(0xff667085)),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Container(
-                          width: 328,
-                          height: 48,
-                          padding: EdgeInsets.zero,
-                          decoration: BoxDecoration(
-                            color: Color(0xFFF2F4F7),
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                              color: Color(0xFFEAECF0),
-                              width: 1,
-                            ),
-                          ),
-                          child: TextFormField(
-                            onTap: () {
-                              ShowDatepark();
-                            },
-                            readOnly: true,
-                            controller: dateinput,
-                            keyboardType: TextInputType.datetime,
-                            decoration: InputDecoration(
-                              hintText: 'Select ',
-                              hintStyle: TextStyle(
-                                color: Color(0xff667085),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Color(0xFFF2F4F7)),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              suffixIcon: Icon(
-                                Icons.calendar_month,
-                                color: Color(0xff292D32),
-                                size: 20,
-                              ),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0xFFF2F4F7),
+                            child: TextFormField(
+                              validator: (text) {
+                                if (text == null || text.trim().isEmpty) {
+                                  return 'Please enter a phone number';
+                                }
+                                if (!ValidationUtils.isValidEmail(text)) {
+                                  return 'Please enter a valid email or Phone number';
+                                }
+                                return null;
+                              },
+                              onTap: () {},
+                              controller: phonenumber,
+                              keyboardType: TextInputType.phone,
+                              decoration: InputDecoration(
+                                hintText: 'Phone number',
+                                hintStyle: TextStyle(
+                                  color: Color(0xff667085),
                                 ),
-                                borderRadius: BorderRadius.circular(8),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Color(0xFFF2F4F7)),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide:
+                                      const BorderSide(color: Color(0xffEAECF0)),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
                               ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                    const BorderSide(color: Color(0xFFF2F4F7)),
-                                borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Text(
+                            "  Age",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 12,
+                                color: Color(0xff667085)),
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Container(
+                            width: 328,
+                            height: 48,
+                            padding: EdgeInsets.zero,
+                            decoration: BoxDecoration(
+                              color: Color(0xFFF2F4F7),
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(
+                                color: Color(0xFFEAECF0),
+                                width: 1,
+                              ),
+                            ),
+                            child: TextFormField(
+                              validator: (text) {
+                                if (text == null || text.trim().isEmpty) {
+                                  return 'Please enter your age ';
+                                }
+                                return null;
+                              },
+                              onTap: () {
+                                ShowDatepark();
+                              },
+                              readOnly: true,
+                              controller: dateinput,
+                              keyboardType: TextInputType.datetime,
+                              decoration: InputDecoration(
+                                hintText: 'Select ',
+                                hintStyle: TextStyle(
+                                  color: Color(0xff667085),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Color(0xFFF2F4F7)),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                suffixIcon: Icon(
+                                  Icons.calendar_month,
+                                  color: Color(0xff292D32),
+                                  size: 20,
+                                ),
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Color(0xFFF2F4F7),
+                                  ),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide:
+                                      const BorderSide(color: Color(0xFFF2F4F7)),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Text(
-                          "  Gender",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 12,
-                              color: Color(0xff667085)),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Container(
-                          width: 328,
-                          height: 48,
-                          padding: EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            color: Color(0xFFF2F4F7),
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                              color: Color(0xFFEAECF0),
-                              width: 1,
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Text(
+                            "  Gender",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 12,
+                                color: Color(0xff667085)),
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Container(
+                            width: 300,
+                            height: 60,
+                            padding: EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: Color(0xFFF2F4F7),
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(
+                                color: Color(0xFFEAECF0),
+                                width: 1,
+                              ),
+                            ),
+                            child: DropdownButton<String>(
+                              items: _items
+                                  .map((item) => DropdownMenuItem<String>(
+                                        value: item,
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              item,
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w400,
+                                                color: Color(0xff667085),
+                                              ),
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            Container(
+                                              width: 230,
+                                            )
+                                          ],
+                                        ),
+                                      ))
+                                  .toList(),
+                              value: _dropdownGendervalue,
+                              onChanged: (value) {
+                                setState(() {
+                                  _dropdownGendervalue = value!;
+                                });
+                              },
+                              icon:
+                                  Icon(Icons.keyboard_arrow_down_sharp, size: 20),
+                              iconEnabledColor: Color(0xff023535),
+                              underline: Container(),
+                              style: TextStyle(
+                                  fontSize: 16, color: Color(0xff023535)),
+                              itemHeight: 48,
+                              isDense: true,
+                              dropdownColor: Colors.white,
                             ),
                           ),
-                          child: DropdownButton<String>(
-                            items: _items
-                                .map((item) => DropdownMenuItem<String>(
-                                      value: item,
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            item,
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w400,
-                                              color: Color(0xff667085),
-                                            ),
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                          Container(
-                                            width: 260,
-                                          )
-                                        ],
-                                      ),
-                                    ))
-                                .toList(),
-                            value: _dropdownGendervalue,
-                            onChanged: (value) {
-                              setState(() {
-                                _dropdownGendervalue = value!;
-                              });
-                            },
-                            icon:
-                                Icon(Icons.keyboard_arrow_down_sharp, size: 20),
-                            iconEnabledColor: Color(0xff023535),
-                            underline: Container(),
-                            style: TextStyle(
-                                fontSize: 16, color: Color(0xff023535)),
-                            itemHeight: 48,
-                            isDense: true,
-                            dropdownColor: Colors.white,
+                          SizedBox(
+                            height: 15,
                           ),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Text(
-                          "  Weight",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 12,
-                              color: Color(0xff667085)),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        CustomTextForm(hinttext: 'Enter your weight', mycontroller: weight,),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Text(
-                          "  Height",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 12,
-                              color: Color(0xff667085)),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        CustomTextForm(hinttext: 'Enter your height', mycontroller: height,),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Text(
-                          "  What is your blood type",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 12,
-                              color: Color(0xff667085)),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Container(
-                          width: 328,
-                          height: 48,
-                          padding: EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            color: Color(0xFFF2F4F7),
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                              color: Color(0xFFEAECF0),
-                              width: 1,
+                          Text(
+                            "  Weight",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 12,
+                                color: Color(0xff667085)),
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          CustomTextForm(
+                            errorvalidationtext: 'please enter you weight ',
+                            hinttext: 'Enter your weight', mycontroller: weight,),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Text(
+                            "  Height",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 12,
+                                color: Color(0xff667085)),
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          CustomTextForm(
+                             errorvalidationtext: 'please enter your height',
+                            hinttext: 'Enter your height', mycontroller: height,),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Text(
+                            "  What is your blood type",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 12,
+                                color: Color(0xff667085)),
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Container(
+                            width: 300,
+                            height: 60,
+                            padding: EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: Color(0xFFF2F4F7),
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(
+                                color: Color(0xFFEAECF0),
+                                width: 1,
+                              ),
+                            ),
+                            child: DropdownButton<String>(
+                              items: _bloodtypeitems
+                                  .map((item) => DropdownMenuItem<String>(
+                                        value: item,
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              item,
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w400,
+                                                color: Color(0xff667085),
+                                              ),
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            Container(
+                                              width: 230,
+                                            )
+                                          ],
+                                        ),
+                                      ))
+                                  .toList(),
+                              value: _bloodtypevalue,
+                              onChanged: (value) {
+                                setState(() {
+                                  _bloodtypevalue = value!;
+                                });
+                              },
+                              icon:
+                                  Icon(Icons.keyboard_arrow_down_sharp, size: 20),
+                              iconEnabledColor: Color(0xff023535),
+                              underline: Container(),
+                              style: TextStyle(
+                                  fontSize: 16, color: Color(0xff023535)),
+                              itemHeight: 48,
+                              dropdownColor: Colors.white,
                             ),
                           ),
-                          child: DropdownButton<String>(
-                            items: _bloodtypeitems
-                                .map((item) => DropdownMenuItem<String>(
-                                      value: item,
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            item,
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w400,
-                                              color: Color(0xff667085),
-                                            ),
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                          Container(
-                                            width: 280,
-                                          )
-                                        ],
-                                      ),
-                                    ))
-                                .toList(),
-                            value: _bloodtypevalue,
-                            onChanged: (value) {
-                              setState(() {
-                                _bloodtypevalue = value!;
-                              });
-                            },
-                            icon:
-                                Icon(Icons.keyboard_arrow_down_sharp, size: 20),
-                            iconEnabledColor: Color(0xff023535),
-                            underline: Container(),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Text(
+                            "  Previous surgeries",
                             style: TextStyle(
-                                fontSize: 16, color: Color(0xff023535)),
-                            itemHeight: 48,
-                            dropdownColor: Colors.white,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 12,
+                                color: Color(0xff667085)),
                           ),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Text(
-                          "  Previous surgeries",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 12,
-                              color: Color(0xff667085)),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        CustomTextForm(hinttext: 'Enter your previous surgerious if any ', mycontroller: Previoussergeries,maxLines: 4,minLines: 4,),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Text(
-                          "  Medication",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 12,
-                              color: Color(0xff667085)),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                    CustomTextForm(hinttext: 'Enter your medication if any', mycontroller: Medication,maxLines: 4,minLines: 4,),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Text(
-                          "  Chronic Disease",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 12,
-                              color: Color(0xff667085)),
-                        ),
-                        Container(
-                          width: 500,
-                          height: 100,
-                          decoration: BoxDecoration(
-                            color: Color(0xFFF2F4F7),
-                            borderRadius: BorderRadius.circular(8),
+                          SizedBox(
+                            height: 15,
                           ),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'Diabetes',
-                                    style: TextStyle(
-                                      color: Color(0xff667085),
+                          CustomTextForm(
+                            errorvalidationtext: 'please enter your previous surgeries',
+                            hinttext: 'Enter your previous surgerious if any ', mycontroller: Previoussergeries,maxLines: 4,minLines: 4,),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Text(
+                            "  Medication",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 12,
+                                color: Color(0xff667085)),
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                      CustomTextForm(errorvalidationtext: 'please enter your medication',
+                        hinttext: 'Enter your medication if any', mycontroller: Medication,maxLines: 4,minLines: 4,),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Text(
+                            "  Chronic Disease",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 12,
+                                color: Color(0xff667085)),
+                          ),
+                          Container(
+                            width: 500,
+                            height: 100,
+                            decoration: BoxDecoration(
+                              color: Color(0xFFF2F4F7),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Diabetes',
+                                      style: TextStyle(
+                                        color: Color(0xff667085),
+                                      ),
                                     ),
-                                  ),
-                                  Checkbox(
-                                      value: _isChecked1,
+                                    Checkbox(
+                                        value: _isChecked1,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            _isChecked1 = value!;
+                                            print(_isChecked1);
+                                          });
+                                        },
+                                        checkColor:
+                                            MaterialStateColor.resolveWith(
+                                                (states) => Color(0xff667085))),
+                                    SizedBox(width: 40),
+                                    Text('        Heart disease',
+                                        style: TextStyle(
+                                          color: Color(0xff667085),
+                                        )),
+                                    Checkbox(
+                                        value: _isChecked3,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            _isChecked3 = value!;
+                                            print(_isChecked3);
+                                          });
+                                        },
+                                        checkColor:
+                                            MaterialStateColor.resolveWith(
+                                                (states) => Color(0xff667085))),
+                                  ],
+                                ),
+                                //  SizedBox(height: 5),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SizedBox(
+                                      width: 25,
+                                    ),
+                                    Text('Asthma',
+                                        style: TextStyle(
+                                          color: Color(0xff667085),
+                                        )),
+                                    Checkbox(
+                                        value: _isChecked2,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            _isChecked2 = value!;
+                                            print(_isChecked2);
+                                          });
+                                        },
+                                        checkColor:
+                                            MaterialStateColor.resolveWith(
+                                                (states) => Color(0xff667085))),
+                                    SizedBox(width: 20),
+                                    Text('Inflammatory bowel',
+                                        style: TextStyle(
+                                          color: Color(0xff667085),
+                                        )),
+                                    Checkbox(
+                                      value: _isChecked4,
                                       onChanged: (value) {
                                         setState(() {
-                                          _isChecked1 = value!;
-                                          print(_isChecked1);
+                                          _isChecked4 = value!;
+                                          print(_isChecked4);
                                         });
                                       },
-                                      checkColor:
-                                          MaterialStateColor.resolveWith(
-                                              (states) => Color(0xff667085))),
-                                  SizedBox(width: 40),
-                                  Text('        Heart disease',
-                                      style: TextStyle(
-                                        color: Color(0xff667085),
-                                      )),
-                                  Checkbox(
-                                      value: _isChecked3,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          _isChecked3 = value!;
-                                          print(_isChecked3);
-                                        });
-                                      },
-                                      checkColor:
-                                          MaterialStateColor.resolveWith(
-                                              (states) => Color(0xff667085))),
-                                ],
-                              ),
-                              //  SizedBox(height: 5),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SizedBox(
-                                    width: 25,
-                                  ),
-                                  Text('Asthma',
-                                      style: TextStyle(
-                                        color: Color(0xff667085),
-                                      )),
-                                  Checkbox(
-                                      value: _isChecked2,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          _isChecked2 = value!;
-                                          print(_isChecked2);
-                                        });
-                                      },
-                                      checkColor:
-                                          MaterialStateColor.resolveWith(
-                                              (states) => Color(0xff667085))),
-                                  SizedBox(width: 20),
-                                  Text('Inflammatory bowel',
-                                      style: TextStyle(
-                                        color: Color(0xff667085),
-                                      )),
-                                  Checkbox(
-                                    value: _isChecked4,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        _isChecked4 = value!;
-                                        print(_isChecked4);
-                                      });
-                                    },
-                                    checkColor: MaterialStateColor.resolveWith(
-                                        (states) => Color(0xff667085)),
-                                  ),
-                                ],
-                              )
-                            ],
+                                      checkColor: MaterialStateColor.resolveWith(
+                                          (states) => Color(0xff667085)
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                        SizedBox(
-                          height: 50,
-                        ),
-                        CustomButtonAuth(
-                          title: 'Save',
-                          onPressed: () {
-                            insertPatient();
-                            Navigator.pushReplacementNamed(context, PatientHomeScreen.routeName);
-                          },
-                        )
-                      ],
+                          SizedBox(
+                            height: 50,
+                          ),
+                          CustomButtonAuth(
+                            title: 'Save',
+                            onPressed: () {
+                              insertPatient();
+                              Navigator.pushReplacementNamed(context, PatientHomeScreen.routeName);
+
+                            },
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -574,6 +612,9 @@ class _PatientFormScreenState extends State<PatientFormScreen> {
   }
 
   void insertPatient() {
+    if (formkey.currentState?.validate() == false) {
+      return;
+    }
     if (_isChecked1) {
       chronicdisease += "diabse , ";
     }
@@ -589,7 +630,7 @@ class _PatientFormScreenState extends State<PatientFormScreen> {
     print("**" + chronicdisease + "**");
     Patient patient = Patient(
         email: widget.user!.email ?? "",
-        name: widget.user!.displayName ?? "",
+        name: widget.name,
         age: dateinput.text,
         medications: Medication.text,
         chronicdisease: chronicdisease,
@@ -597,22 +638,18 @@ class _PatientFormScreenState extends State<PatientFormScreen> {
         phoneumber: phonenumber.text,
         doctororpatient: widget.doctororpatient,
         gender: _dropdownGendervalue ?? "",
+        profileimagepath: widget.profileimagepath,
         weight: weight.text,
         height: height.text,
         bloodtype: _bloodtypevalue ?? "");
-    MyDatabase.insertPatient(patient?.email??"", patient);
+    MyDatabase.insertPatient(patient.email??"", patient);
   }
 
   Future getImage() async {
     ImagePicker picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     XFile? xfilePick = pickedFile;
-    if (xfilePick != null) {
-      FirebaseFirestore.instance
-          .collection('patient')
-          .doc(widget.user?.email ?? "")
-          .update({'profileimagepath': xfilePick.path});
-    }
+
     widget.profileimagepath = xfilePick?.path ?? "";
     setState(() {});
   }

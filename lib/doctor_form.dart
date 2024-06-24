@@ -13,34 +13,10 @@ import 'package:tech_care/database/Doctor.dart';
 import 'package:tech_care/database/My%20database.dart';
 
 class DoctorFormScreen extends StatefulWidget {
-  String profileimagepath="";
-  static String routeName = "doctorform";
-  var user=FirebaseAuth.instance.currentUser;
-  String doctororpatient='doctor';
-  @override
-  State<DoctorFormScreen> createState() => _DoctorFormScreenState();
-}
+  String name;
 
-class _DoctorFormScreenState extends State<DoctorFormScreen> {
-  TextEditingController phonenumber = TextEditingController();
+  DoctorFormScreen({required this.name});
 
-  TextEditingController dateinput = TextEditingController();
-  TextEditingController adress = TextEditingController();
-
-  TextEditingController careerpath = TextEditingController();
-
-  TextEditingController about = TextEditingController();
-
-  TextEditingController experience = TextEditingController();
-
-
-  TextEditingController available = TextEditingController();
-  String _genderdropdownvalue = 'Male';
-  final _genders = [
-    'Male',
-    'Female',
-  ];
-  String _medicalSpecialtiesdropdownvalue = 'Allergy and Immunology';
   final _medicalSpecialties = [
     'Allergy and Immunology',
     'Andrology and Male Infertility', // Corrected "Inferility" to "Infertility"
@@ -129,6 +105,39 @@ class _DoctorFormScreenState extends State<DoctorFormScreen> {
     'assets/images/drop_down_icon/Spinal Surgery.png',
     'assets/images/drop_down_icon/Urology.png'
   ];
+  String profileimagepath="";
+  static String routeName = "doctorform";
+  var user=FirebaseAuth.instance.currentUser;
+  String doctororpatient='doctor';
+  @override
+  State<DoctorFormScreen> createState() => _DoctorFormScreenState();
+}
+
+class _DoctorFormScreenState extends State<DoctorFormScreen> {
+  TextEditingController phonenumber = TextEditingController();
+
+  TextEditingController dateinput = TextEditingController();
+  TextEditingController adress = TextEditingController();
+
+  TextEditingController careerpath = TextEditingController();
+
+  TextEditingController about = TextEditingController();
+
+  TextEditingController experience = TextEditingController();
+
+
+  TextEditingController available = TextEditingController();
+  String _genderdropdownvalue = 'Male';
+  final _genders = [
+    'Male',
+    'Female',
+  ];
+  String _medicalSpecialtiesdropdownvalue = 'Allergy and Immunology';
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -335,8 +344,7 @@ class _DoctorFormScreenState extends State<DoctorFormScreen> {
                         _genderdropdownvalue = value!;
                       });
                     },
-                    icon:
-                    Icon(Icons.keyboard_arrow_down_sharp, size: 20),
+                    icon: Icon(Icons.keyboard_arrow_down_sharp, size: 20),
                     iconEnabledColor: Color(0xff023535),
                     underline: Container(),
                     style: TextStyle(
@@ -385,49 +393,49 @@ class _DoctorFormScreenState extends State<DoctorFormScreen> {
                       fontSize: 12,
                       color: Color(0xff667085)),
                 ),
-                // DropdownButton2(
-                //   icon:
-                //   Icon(Icons.keyboard_arrow_down_sharp, size: 20),
-                //   value:_medicalSpecialtiesdropdownvalue ,
-                //   items: _medicalSpecialties.asMap().entries.map((entry) {
-                //     int index = entry.key;
-                //     String item = entry.value;
-                //     return DropdownMenuItem(
-                //         value: item,
-                //         child:  Row(
-                //           children: [
-                //             Image.asset(_medicalSpecialtiesIcons[index],width: 20,height:20 ,),
-                //             Container(width: 10,),
-                //             Text(
-                //              item,
-                //               style: const TextStyle(
-                //                 fontSize: 14,
-                //                 fontWeight: FontWeight.bold,
-                //                 color:  Color(0xff667085),
-                //               ),
-                //               overflow: TextOverflow.ellipsis,
-                //             ),
-                //           ],
-                //         ),
-                //         // Pass the index to your widget
-                //         );
-                //   }).toList(),
-                //   onChanged: (value) {
-                //     setState(() {
-                //       _medicalSpecialtiesdropdownvalue = value as String;
-                //     });
-                //   },
-                //   buttonDecoration: BoxDecoration(
-                //     color: Color(0xffF2F4F7),
-                //     border: Border.all(color: Color(0xffEAECF0)),
-                //     borderRadius: BorderRadius.circular(8)
-                //   ),
-                //
-                //   buttonHeight: 60,
-                //   buttonWidth: 400,
-                //
-                //   buttonPadding: EdgeInsets.all(8),
-                // ),
+                DropdownButton2(
+                  icon:
+                  Icon(Icons.keyboard_arrow_down_sharp, size: 20),
+                  value:_medicalSpecialtiesdropdownvalue ,
+                  items: widget._medicalSpecialties.asMap().entries.map((entry) {
+                    int index = entry.key;
+                    String item = entry.value;
+                    return DropdownMenuItem(
+                        value: item,
+                        child:  Row(
+                          children: [
+                            Image.asset(widget._medicalSpecialtiesIcons[index],width: 20,height:20 ,),
+                            Container(width: 10,),
+                            Text(
+                             item,
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color:  Color(0xff667085),
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
+                        // Pass the index to your widget
+                        );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      _medicalSpecialtiesdropdownvalue = value as String;
+                    });
+                  },
+                  buttonDecoration: BoxDecoration(
+                    color: Color(0xffF2F4F7),
+                    border: Border.all(color: Color(0xffEAECF0)),
+                    borderRadius: BorderRadius.circular(8)
+                  ),
+
+                  buttonHeight: 60,
+                  buttonWidth: 400,
+
+                  buttonPadding: EdgeInsets.all(8),
+                ),
                 SizedBox(
                   height: 15,
                 ),
@@ -475,6 +483,12 @@ class _DoctorFormScreenState extends State<DoctorFormScreen> {
                 ),
                 CustomButtonAuth(title: 'Save',onPressed: (){
                   insertDoctor();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) =>
+                      DoctorHomeScreen()
+                  )
+                  );
                 },)
               ],
             ),
@@ -483,13 +497,14 @@ class _DoctorFormScreenState extends State<DoctorFormScreen> {
   }
   void insertDoctor(){
     Doctor doctor=Doctor(email: widget.user?.email??"",
-        name:widget.user?.displayName??"" ,
+        name:widget.name ,
         phonenumber:phonenumber.text ,
         specialist: _medicalSpecialtiesdropdownvalue,
         adress: adress.text,
         gender: _genderdropdownvalue,
         doctororpatient: widget.doctororpatient,
         about: about.text,
+        profileimagepath: widget.profileimagepath,
         available: available.text,
         careerpath: careerpath.text,
         experience: experience.text
