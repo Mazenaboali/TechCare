@@ -171,14 +171,9 @@ class _DoctorProfilePatientViewScreenState
                                     width: 96,
                                   ),
                                 )
-                              : ClipOval(
-                                  child: Image.file(
-                                      fit: BoxFit.fill,
-                                      height: 105,
-                                      width: 105,
-                                      File(
-                                        data?.profileimagepath ?? "",
-                                      ))),
+                              :ClipOval(
+                              child: Image.network(data?.profileimagepath??"",width: 105,height: 105,fit: BoxFit.fill,)
+                          ),
                         ),
                         SizedBox(
                           width: 20,

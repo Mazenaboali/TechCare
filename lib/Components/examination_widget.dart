@@ -80,13 +80,8 @@ class ExaminationWidget extends StatelessWidget{
                       ),
                     )
                         : ClipOval(
-                        child: Image.file(
-                            fit: BoxFit.fill,
-                            height: 45,
-                            width: 45,
-                            File(
-                              profileimagepath??"",
-                            ))),
+                        child: Image.network(profileimagepath??"",width: 50,height: 50,fit: BoxFit.fill,)
+                    ),
                     SizedBox(
                       width: 15,
                     ),

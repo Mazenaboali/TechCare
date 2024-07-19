@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -14,11 +15,12 @@ import 'package:tech_care/database/examination.dart';
 import 'package:tech_care/utils/date%20utils.dart';
 import 'package:tech_care/utils/dialog_utils.dart';
 
-import 'Provider/get-data-provider.dart';
+import '../Provider/get-data-provider.dart';
 
 class ExaminationForm extends StatefulWidget {
   static String routeName = "Examination form";
   var user = FirebaseAuth.instance.currentUser;
+  var image;
   String qrcoderesult;
   String? prescriptionimage;
   String? doctorname;
@@ -126,13 +128,8 @@ class _ExaminationFormState extends State<ExaminationForm> {
                                 ),
                               )
                                   : ClipOval(
-                                  child: Image.file(
-                                      fit: BoxFit.fill,
-                                      height: 24,
-                                      width: 24,
-                                      File(
-                                        widget.doctorimagepath??"",
-                                      ))),
+                                  child: Image.network(widget.doctorimagepath??"",width: 24,height: 24,fit: BoxFit.fill,)
+                              ),
                               SizedBox(
                                 width: 5,
                               ),
@@ -325,16 +322,40 @@ class _ExaminationFormState extends State<ExaminationForm> {
                       ),
                     ),
                     onPressed: () async {
-                      ImagePicker picker = ImagePicker();
-                      final pickedFile =
-                          await picker.pickImage(source: ImageSource.camera);
-                      XFile? xfilePick = pickedFile;
-                      if (xfilePick != null) {
-                        widget.prescriptionimage = xfilePick.path;
-                        print("${widget.prescriptionimage}**mazoona");
+                      final pickedImage = await ImagePicker().pickImage(source: ImageSource.camera);
+
+                      if (pickedImage != null) {
+                        setState(() {
+                          widget.image = File(pickedImage.path);
+                        });
+                        try {
+
+                          final fileName = DateTime.now().millisecondsSinceEpoch.toString();
+                          final firebaseStorageRef = FirebaseStorage.instance.ref().child(fileName);
+                          final uploadTask = firebaseStorageRef.putFile(widget.image!);
+
+                          final snapshot = await uploadTask.whenComplete(() {});
+
+                          if (snapshot.state == TaskState.success) {
+                            final downloadURL = await snapshot.ref.getDownloadURL();
+                            widget.prescriptionimage=downloadURL;
+                            print(widget.prescriptionimage);
+                            print('sossososo');
+
+                          } else {
+                            widget.prescriptionimage=null;
+
+                          }
+                        } catch (ex) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('uploading image failed')));
+                        }
+                        setState(() {
+                          myDataProvider.uploadPrescriptionState();
+                        });
                       }
-                      myDataProvider.uploadPrescriptionState();
-                      print(myDataProvider.uploadprescriptionState);
+                      else{
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('no images selected')));
+                      }
                     },
                   ),
                 ),
@@ -347,14 +368,12 @@ class _ExaminationFormState extends State<ExaminationForm> {
                             height: 15,
                           ),
                           InteractiveViewer(
-                            child: Image.file(
-                                fit: BoxFit.fill,
-                                width: MediaQuery.of(context).size.width,
-                                height:
-                                    MediaQuery.of(context).size.height / 1.2,
-                                File(
-                                  widget.prescriptionimage ?? "",
-                                )),
+                            child: Image.network(widget.prescriptionimage!,
+
+                              width: MediaQuery.of(context).size.width,
+                              height:
+                              MediaQuery.of(context).size.height / 1.2,
+                              fit: BoxFit.fill,),
                           ),
                           Container(
                             height: 15,
@@ -491,5 +510,9 @@ class _ExaminationFormState extends State<ExaminationForm> {
       posaction: 'ok'
     );
   }
+
+
+
+
 }
 

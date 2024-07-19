@@ -9,7 +9,7 @@ import 'package:tech_care/Components/dash-border-button.dart';
 import 'package:tech_care/utils/dialog_utils.dart';
 
 class ReviewExamination extends StatefulWidget {
-  String?doctorImagePath;
+  String? doctorImagePath;
   String identifyuser;
   String userEmail;
   String doctorname;
@@ -38,12 +38,10 @@ class ReviewExamination extends StatefulWidget {
   });
 
   @override
-  State<ReviewExamination> createState() =>
-      _ReviewExaminationState();
+  State<ReviewExamination> createState() => _ReviewExaminationState();
 }
 
-class _ReviewExaminationState
-    extends State<ReviewExamination> {
+class _ReviewExaminationState extends State<ReviewExamination> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,7 +57,6 @@ class _ReviewExaminationState
             ),
           ),
         ),
-
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -68,7 +65,7 @@ class _ReviewExaminationState
             child: Column(
               children: [
                 Container(
-                  height:180 ,
+                  height: 180,
                   width: 360,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
@@ -83,21 +80,22 @@ class _ReviewExaminationState
                           padding: const EdgeInsets.all(4.0),
                           child: Row(
                             children: [
-                              widget.doctorImagePath==null || widget.doctorImagePath=="" ? ClipOval(
-                                child: Image.asset(
-                                  "assets/images/profile.png",
-                                  height: 24,
-                                  width: 24,
-                                ),
-                              )
+                              widget.doctorImagePath == null ||
+                                      widget.doctorImagePath == ""
+                                  ? ClipOval(
+                                      child: Image.asset(
+                                        "assets/images/profile.png",
+                                        height: 24,
+                                        width: 24,
+                                      ),
+                                    )
                                   : ClipOval(
-                                  child: Image.file(
-                                      fit: BoxFit.fill,
-                                      height: 24,
+                                      child: Image.network(
+                                      widget.doctorImagePath ?? "",
                                       width: 24,
-                                      File(
-                                        widget.doctorImagePath??"",
-                                      ))),
+                                      height: 24,
+                                      fit: BoxFit.fill,
+                                    )),
                               SizedBox(
                                 width: 5,
                               ),
@@ -266,67 +264,61 @@ class _ReviewExaminationState
                       child: Text(widget.prescriptiontext ?? ""),
                     )),
                 widget.prescriptionimagepath == null ||
-                    widget.prescriptionimagepath == ""
+                        widget.prescriptionimagepath == ""
                     ? Container()
                     : Column(
-                  children: [
-                    Container(
-                      height: 15,
-                    ),
-                    InteractiveViewer(
-                      child: Image.file(
-                          fit: BoxFit.fill,
-                          width: MediaQuery.of(context).size.width,
-                          height:
-                          MediaQuery.of(context).size.height / 1.2,
-                          File(
-                            widget.prescriptionimagepath ?? "",
-                          )),
-                    ),
-                    Container(
-                      height: 15,
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
+                        children: [
+                          Container(
+                            height: 15,
+                          ),
+                          InteractiveViewer(
+                            child: Image.network(widget.prescriptionimagepath??"",
 
-                SizedBox(
-                  height: 10,
-                ),
-
-                widget.analysisimagepath == null?Container():
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (_, index) {
-                    return Column(
-                      children: [
-                        Container(
-                          height: 15,
-                        ),
-                        InteractiveViewer(
-                          child: Image.file(
-                              fit: BoxFit.fill,
                               width: MediaQuery.of(context).size.width,
                               height:
                               MediaQuery.of(context).size.height / 1.2,
-                              File(
-                                widget.analysisimagepath?[index]??"",
-                              )),
-                        ),
-                        Container(
-                          height: 15,
-                        ),
-                      ],
-                    );
-                  },
-                  itemCount: widget.analysisimagepath?.length??0,
+                              fit: BoxFit.fill,),
+                          ),
+                          Container(
+                            height: 15,
+                          ),
+                        ],
+                      ),
+                SizedBox(
+                  height: 10,
                 ),
-
-
-
+                SizedBox(
+                  height: 10,
+                ),
+                widget.analysisimagepath == null
+                    ? Container()
+                    : ListView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (_, index) {
+                          return Column(
+                            children: [
+                              Container(
+                                height: 15,
+                              ),
+                              InteractiveViewer(
+                                child: Image.file(
+                                    fit: BoxFit.fill,
+                                    width: MediaQuery.of(context).size.width,
+                                    height: MediaQuery.of(context).size.height /
+                                        1.2,
+                                    File(
+                                      widget.analysisimagepath?[index] ?? "",
+                                    )),
+                              ),
+                              Container(
+                                height: 15,
+                              ),
+                            ],
+                          );
+                        },
+                        itemCount: widget.analysisimagepath?.length ?? 0,
+                      ),
               ],
             ),
           ),
@@ -334,5 +326,4 @@ class _ReviewExaminationState
       ),
     );
   }
-
 }

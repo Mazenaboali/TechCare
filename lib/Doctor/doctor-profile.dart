@@ -8,7 +8,7 @@ import 'package:tech_care/LoginScreen/login_screen.dart';
 import 'package:tech_care/database/Doctor.dart';
 import 'package:tech_care/database/My%20database.dart';
 
-import 'Components/custom_button_auth.dart';
+import '../Components/custom_button_auth.dart';
 
 class DoctorProfileScreen extends StatefulWidget {
   static String routeName = "DoctorProfileScreen";
@@ -222,16 +222,14 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
                             width: 96,
                           ),
                         )
-                            : ClipOval(
-                                child: Image.file(
-                                    fit: BoxFit.fill,
-                                    height: 105,
-                                    width: 105,
-                                    File(
-                                      data?.profileimagepath??"",
-                                    ))),
+                            : Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ClipOval(
+                              child: Image.network(data?.profileimagepath??"",width: 105,height: 105,fit: BoxFit.fill,)
+                                                      ),
+                            ),
                         SizedBox(
-                          width: 20,
+                          width: 5,
                         ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,

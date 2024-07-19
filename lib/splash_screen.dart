@@ -6,11 +6,10 @@ import 'package:tech_care/HomeScreen/patient_home_screen.dart';
 import 'package:tech_care/LoginScreen/login_screen.dart';
 import 'package:tech_care/database/My%20database.dart';
 import 'package:tech_care/database/Patient.dart';
-import 'package:tech_care/doctor_form.dart';
+import 'package:tech_care/Doctor/doctor_form.dart';
 
 class SplashScreen extends StatefulWidget {
-
-  static String routeName="Splash Screen";
+  static String routeName = "Splash Screen";
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
@@ -21,7 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return FutureBuilder<Patient?>(
-        future: MyDatabase.getPatientData(user?.email ??" "),
+        future: MyDatabase.getPatientData(user?.email ?? " "),
         builder: (buildContext, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Container(
@@ -38,7 +37,7 @@ class _SplashScreenState extends State<SplashScreen> {
             return LoginScreen();
           }
           if (snapshot.hasError) {
-            print('*****' + snapshot.toString()+ '*****');
+            print('*****' + snapshot.toString() + '*****');
             return Container(
               child: ElevatedButton(
                 onPressed: () {

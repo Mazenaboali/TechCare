@@ -7,6 +7,7 @@ import 'package:tech_care/Chat/build-chat-list.dart';
 import 'package:tech_care/Chat/message-input-field.dart';
 import 'package:tech_care/Provider/get-data-provider.dart';
 import 'package:tech_care/database/My%20database.dart';
+import 'package:tech_care/database/messages.dart';
 
 class ChatScreen extends StatefulWidget {
   final String receiverEmail;
@@ -35,7 +36,6 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   void initState() {
-
     // TODO: implement initState
     super.initState();
     print(widget.receiverImagePath);
@@ -52,22 +52,23 @@ class _ChatScreenState extends State<ChatScreen> {
   void _sendMessage() async {
     String messageContent = _messageController.text.trim();
 
-    String dateTime=DateTime.now().day.toString()+"/"+DateTime.now().month.toString()+"/"+DateTime.now().year.toString();
+    String dateTime = DateTime.now().day.toString() +
+        "/" +
+        DateTime.now().month.toString() +
+        "/" +
+        DateTime.now().year.toString();
     if (messageContent.isNotEmpty) {
       try {
-        await FirebaseFirestore.instance.collection('messages').add({
-          'sender':
-              widget.senderEmail,
-          'receiver': widget.receiverEmail,
-          'content': messageContent,
-          'timestamp': Timestamp.now(),
-          'receiverName':widget.receiverName,
-          'senderName':widget.senderName,
-          'receiverImagePath':widget.receiverImagePath,
-          'senderImagePath':widget.senderImagePath
-
-
-        });
+        Message message = Message(
+            sender: widget.senderEmail,
+            receiver: widget.receiverEmail,
+            content: messageContent,
+            timestamp: Timestamp.now(),
+            receiverName: widget.receiverName,
+            senderName: widget.senderName,
+            senderImagePath: widget.senderImagePath,
+            receiverImagePath: widget.receiverImagePath);
+        MyDatabase.insertMessage(message);
 
         _messageController.clear();
       } catch (e) {
@@ -94,25 +95,24 @@ class _ChatScreenState extends State<ChatScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Padding(
-              padding: const EdgeInsets.all(1),
-              child: widget.receiverImagePath == null ||
-                      widget.receiverImagePath == ""
-                  ? ClipOval(
-                      child: Image.asset(
-                        "assets/images/profile.png",
-                        height: 50,
-                        width: 50,
-                      ),
-                    )
-                  : ClipOval(
-                      child: Image.file(
+                padding: const EdgeInsets.all(1),
+                child: widget.receiverImagePath == null ||
+                        widget.receiverImagePath == ""
+                    ? ClipOval(
+                        child: Image.asset(
+                          "assets/images/profile.png",
+                          height: 50,
+                          width: 50,
+                        ),
+                      )
+                    : ClipOval(
+                        child: Image.network(
+                          widget.receiverImagePath ?? "",
                           fit: BoxFit.fill,
                           height: 50,
                           width: 50,
-                          File(
-                            widget.receiverImagePath ?? "",
-                          ))),
-            ),
+                        ),
+                      )),
             Container(
               width: 10,
             ),
@@ -125,8 +125,8 @@ class _ChatScreenState extends State<ChatScreen> {
         children: [
           Expanded(
             child: BuildChatList(
-                receiverEmail: widget.receiverEmail,
-                sender: widget.senderEmail,
+              receiverEmail: widget.receiverEmail,
+              sender: widget.senderEmail,
               receiverImagePath: widget.receiverImagePath,
             ),
           ),

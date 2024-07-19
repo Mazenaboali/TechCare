@@ -10,7 +10,7 @@ import 'package:tech_care/Doctor/Review-examination.dart';
 import 'package:tech_care/HomeScreen/doctor_home_screen.dart';
 import 'package:tech_care/database/My%20database.dart';
 import 'package:tech_care/database/examination.dart';
-import 'package:tech_care/doctor-profile.dart';
+import 'package:tech_care/Doctor/doctor-profile.dart';
 
 class ExaminationDoctorViewScreen extends StatefulWidget {
   static String routeName = "ExaminationDoctorViewScreen";

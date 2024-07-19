@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:tech_care/doctor_form.dart';
+import 'package:tech_care/Doctor/doctor_form.dart';
 import 'package:tech_care/Patient/patient_form.dart';
 
 class PatientOrDoctorScreen extends StatelessWidget {

@@ -6,7 +6,7 @@ import 'package:tech_care/LoginScreen/login_screen.dart';
 import 'package:tech_care/Patient/Patient_Profile.dart';
 import 'package:tech_care/Patient/Qr%20code%20screen.dart';
 import 'package:tech_care/Patient/medical-history-patient-view.dart';
-import 'package:tech_care/doctor-profile.dart';
+import 'package:tech_care/Doctor/doctor-profile.dart';
 import 'package:tech_care/splash_screen.dart';
 
 class PatientHomeScreen extends StatefulWidget {

@@ -6,8 +6,8 @@ import 'package:tech_care/Doctor/Review-examination.dart';
 import 'package:tech_care/HomeScreen/doctor_home_screen.dart';
 import 'package:tech_care/database/My%20database.dart';
 import 'package:tech_care/database/examination.dart';
-import 'package:tech_care/doctor-profile.dart';
-import 'package:tech_care/examination_form.dart';
+import 'package:tech_care/Doctor/doctor-profile.dart';
+import 'package:tech_care/Doctor/examination_form.dart';
 
 class MedicalHistoryOfThePatientWithOtherDoctorScreen extends StatefulWidget{
   static String routeName="MedicalHistoryOfThePatientWithOtherDoctorScreen";
@@ -179,7 +179,7 @@ class _MedicalHistoryOfThePatientWithOtherDoctorScreenState extends State<Medica
                             height: 30,
                           ),
                           Text(
-                            'You have not added any medical records yet',
+                            'This patient do not have any examinations recorded',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: Colors.black,

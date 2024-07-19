@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -14,11 +14,12 @@ import 'package:tech_care/utils/validation_utils.dart';
 class PatientFormScreen extends StatefulWidget {
   static String routeName = "PatientFormScreen";
   String name;
-
+  var image;
+  String? imageUrl;
   PatientFormScreen(this.name);
 
   final user = FirebaseAuth.instance.currentUser;
-  String profileimagepath = "";
+
   String doctororpatient = "patient";
 
   @override
@@ -83,7 +84,7 @@ class _PatientFormScreenState extends State<PatientFormScreen> {
                 SizedBox(
                   height: 20,
                 ),
-                widget.profileimagepath == ""
+                widget.imageUrl == "" ||widget.imageUrl==null
                     ? ClipOval(
                         child: Image.asset(
                           "assets/images/profile.png",
@@ -93,22 +94,20 @@ class _PatientFormScreenState extends State<PatientFormScreen> {
                       )
                     : InkWell(
                         onTap: () {
-                          getImage();
                         },
-                        child: ClipOval(
-                            child: Image.file(
-                                fit: BoxFit.fill,
-                                height: 105,
-                                width: 105,
-                                File(
-                                  widget.profileimagepath,
-                                )))),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ClipOval(
+                              child: Image.network(widget.imageUrl!,width: 155,height: 155,fit: BoxFit.fill,)
+                          ),
+                        )
+                ),
                 Container(
                   width: 107,
                   height: 42,
                   child: MaterialButton(
                     onPressed: () {
-                      getImage();
+                      uploadImage();
                     },
                     child: Row(
                       children: [
@@ -638,19 +637,50 @@ class _PatientFormScreenState extends State<PatientFormScreen> {
         phoneumber: phonenumber.text,
         doctororpatient: widget.doctororpatient,
         gender: _dropdownGendervalue ?? "",
-        profileimagepath: widget.profileimagepath,
+        profileimagepath: widget.imageUrl,
         weight: weight.text,
         height: height.text,
         bloodtype: _bloodtypevalue ?? "");
     MyDatabase.insertPatient(patient.email??"", patient);
   }
 
-  Future getImage() async {
-    ImagePicker picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    XFile? xfilePick = pickedFile;
 
-    widget.profileimagepath = xfilePick?.path ?? "";
-    setState(() {});
+  void uploadImage() async {
+    final pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+
+    if (pickedImage != null) {
+      setState(() {
+        widget.image = File(pickedImage.path);
+      });
+      try {
+
+        final fileName = DateTime.now().millisecondsSinceEpoch.toString();
+        final firebaseStorageRef = FirebaseStorage.instance.ref().child(fileName);
+        final uploadTask = firebaseStorageRef.putFile(widget.image!);
+
+        final snapshot = await uploadTask.whenComplete(() {});
+
+        if (snapshot.state == TaskState.success) {
+          final downloadURL = await snapshot.ref.getDownloadURL();
+          widget.imageUrl=downloadURL;
+          setState(() {
+
+          });
+        } else {
+          widget.imageUrl=null;
+          setState(() {
+
+          });
+        }
+      } catch (ex) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('uploading image failed')));
+      }
+    }
+    else{
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('no images selected')));
+    }
+    print(widget.imageUrl);
+
   }
+
 }

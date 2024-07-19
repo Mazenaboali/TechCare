@@ -218,13 +218,12 @@ class _PatientProfileState extends State<PatientProfile> {
                               ),
                             )
                           : ClipOval(
-                              child: Image.file(
-                                  fit: BoxFit.cover,
-                                  height: 105,
-                                  width: 105,
-                                  File(
-                                    data?.profileimagepath ?? "",
-                                  ))),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: ClipOval(
+                                    child: Image.network(data?.profileimagepath??"",width: 105,height: 105,fit: BoxFit.fill,)
+                                ),
+                              )),
                       SizedBox(
                         width: 20,
                       ),
@@ -235,6 +234,7 @@ class _PatientProfileState extends State<PatientProfile> {
                             height: 40,
                           ),
                           Text(
+                            overflow: TextOverflow.ellipsis,
                             data?.name ?? "_",
                             style: TextStyle(
                               fontSize: 16,

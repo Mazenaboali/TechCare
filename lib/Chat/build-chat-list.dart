@@ -1,12 +1,13 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:tech_care/database/My%20database.dart';
+import 'package:tech_care/database/messages.dart';
 
 class BuildChatList extends StatefulWidget
 {
-  String sender;
 
+  String sender;
   String receiverEmail;
   String? receiverImagePath;
 
@@ -22,12 +23,9 @@ class _BuildChatListState extends State<BuildChatList> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return StreamBuilder(
-      stream: FirebaseFirestore.instance
-          .collection('messages')
-          .orderBy('timestamp', descending: true)
-          .snapshots(),
-      builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+    return  StreamBuilder<QuerySnapshot<Message>>(
+      stream: MyDatabase.getMessages(),
+      builder:  (buildcontext, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: CircularProgressIndicator());
         }
@@ -37,16 +35,14 @@ class _BuildChatListState extends State<BuildChatList> {
           return Center(child: Text('No messages yet'));
         }
 
-        List<DocumentSnapshot> messages = snapshot.data!.docs;
+        var messages = snapshot.data?.docs.map((doc) => doc.data()).toList();
 
         return ListView.builder(
           reverse: true,
-          itemCount: messages.length,
+          itemCount: messages?.length,
           itemBuilder: (context, index) {
-            Map<String, dynamic> data =
-            messages[index].data() as Map<String, dynamic>;
-            if (data['sender'] == widget.sender &&
-                data['receiver'] == widget.receiverEmail) {
+            if (messages![index].sender== widget.sender &&
+                messages[index].receiver== widget.receiverEmail) {
               double _scale = 1.0; // Initial scale factor
               return ListTile(
                 title: Padding(
@@ -85,7 +81,7 @@ class _BuildChatListState extends State<BuildChatList> {
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
-                                    data['content'],
+                                    messages[index].content??"",
                                     style: TextStyle(
                                       color: Color(0xff007665),
                                       fontWeight: FontWeight.w400,
@@ -102,8 +98,8 @@ class _BuildChatListState extends State<BuildChatList> {
                   ),
                 ),
               );
-            } else if (data['sender'] == widget.receiverEmail &&
-                data['receiver'] == widget.sender) {
+            } else if (messages[index].sender == widget.receiverEmail &&
+                messages[index].receiver== widget.sender) {
               double _scale = 1.0;
               return ListTile(
                 title: Container(
@@ -120,13 +116,14 @@ class _BuildChatListState extends State<BuildChatList> {
                         ),
                       )
                           : ClipOval(
-                          child: Image.file(
+                          child: Image.network(
                               fit: BoxFit.fill,
                               height: 50,
                               width: 50,
-                              File(
+
                                 widget.receiverImagePath ?? "",
-                              ))),
+                              ),
+                      ),
                       SizedBox(
                         width: 10,
                       ),
@@ -157,7 +154,7 @@ class _BuildChatListState extends State<BuildChatList> {
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  data['content'],
+                                  messages[index].content??"",
                                   style: TextStyle(
                                     fontWeight: FontWeight.w400,
                                     fontSize: 16,

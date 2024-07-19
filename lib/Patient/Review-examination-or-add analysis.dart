@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
 
@@ -62,7 +63,7 @@ class _ReviewExaminationOrAddAnalysisState
         ),
         actions: [
           InkWell(
-            onTap: (){
+            onTap: () {
               print(widget.userEmail);
               print(widget.id);
               print(widget.analysisimagepath);
@@ -70,10 +71,13 @@ class _ReviewExaminationOrAddAnalysisState
               FirebaseFirestore.instance
                   .collection(widget.identifyuser)
                   .doc(widget.userEmail)
-                  .collection('Examinations') // Replace with your collection name
+                  .collection(
+                      'Examinations') // Replace with your collection name
                   .doc(widget.id) // Replace with your document ID
                   .update({'analysisimagepath': widget.analysisimagepath});
-              dialogUtils.showMessage(context, 'Examination updated successfully',posaction: 'ok');
+              dialogUtils.showMessage(
+                  context, 'Examination updated successfully',
+                  posaction: 'ok');
             },
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -95,7 +99,7 @@ class _ReviewExaminationOrAddAnalysisState
             child: Column(
               children: [
                 Container(
-                  height:180 ,
+                  height: 180,
                   width: 360,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
@@ -110,21 +114,22 @@ class _ReviewExaminationOrAddAnalysisState
                           padding: const EdgeInsets.all(4.0),
                           child: Row(
                             children: [
-                              widget.doctorImagePath==null || widget.doctorImagePath=="" ? ClipOval(
-                                child: Image.asset(
-                                  "assets/images/profile.png",
-                                  height: 24,
-                                  width: 24,
-                                ),
-                              )
+                              widget.doctorImagePath == null ||
+                                      widget.doctorImagePath == ""
+                                  ? ClipOval(
+                                      child: Image.asset(
+                                        "assets/images/profile.png",
+                                        height: 24,
+                                        width: 24,
+                                      ),
+                                    )
                                   : ClipOval(
-                                  child: Image.file(
-                                      fit: BoxFit.fill,
-                                      height: 24,
+                                      child: Image.network(
+                                      widget.doctorImagePath ?? "",
                                       width: 24,
-                                      File(
-                                        widget.doctorImagePath??"",
-                                      ))),
+                                      height: 24,
+                                      fit: BoxFit.fill,
+                                    )),
                               SizedBox(
                                 width: 5,
                               ),
@@ -301,14 +306,12 @@ class _ReviewExaminationOrAddAnalysisState
                             height: 15,
                           ),
                           InteractiveViewer(
-                            child: Image.file(
-                                fit: BoxFit.fill,
-                                width: MediaQuery.of(context).size.width,
-                                height:
-                                    MediaQuery.of(context).size.height / 1.2,
-                                File(
-                                  widget.prescriptionimagepath ?? "",
-                                )),
+                            child: Image.network(widget.prescriptionimagepath??"",
+
+                              width: MediaQuery.of(context).size.width,
+                              height:
+                              MediaQuery.of(context).size.height / 1.2,
+                              fit: BoxFit.fill,),
                           ),
                           Container(
                             height: 15,
@@ -370,10 +373,11 @@ class _ReviewExaminationOrAddAnalysisState
                     },
                   ),
                 ),
-                widget.analysisimagepath == null?Container():
-               ListView.builder(
-                 shrinkWrap: true,
-                 physics: NeverScrollableScrollPhysics(),
+                widget.analysisimagepath == null
+                    ? Container()
+                    : ListView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
                         itemBuilder: (_, index) {
                           return Column(
                             children: [
@@ -381,14 +385,12 @@ class _ReviewExaminationOrAddAnalysisState
                                 height: 15,
                               ),
                               InteractiveViewer(
-                                child: Image.file(
-                                    fit: BoxFit.fill,
-                                    width: MediaQuery.of(context).size.width,
-                                    height:
-                                    MediaQuery.of(context).size.height / 1.2,
-                                    File(
-                                      widget.analysisimagepath?[index]??"",
-                                    )),
+                                child:Image.network(widget.analysisimagepath![index],
+
+                                  width: MediaQuery.of(context).size.width,
+                                  height:
+                                  MediaQuery.of(context).size.height / 1.2,
+                                  fit: BoxFit.fill,),
                               ),
                               Container(
                                 height: 15,
@@ -396,11 +398,8 @@ class _ReviewExaminationOrAddAnalysisState
                             ],
                           );
                         },
-                        itemCount: widget.analysisimagepath?.length??0,
+                        itemCount: widget.analysisimagepath?.length ?? 0,
                       ),
-
-               
-
               ],
             ),
           ),
@@ -413,20 +412,48 @@ class _ReviewExaminationOrAddAnalysisState
     final pickedFile = await ImagePicker()
         .pickMultiImage(imageQuality: 100, maxHeight: 1000, maxWidth: 1000);
     List<XFile> xfilePick = pickedFile;
+   try {
+     if (xfilePick.isNotEmpty) {
+       widget.analysisimagepath = [];
+       for (var i = 0; i < xfilePick.length; i++) {
+         final fileName = DateTime
+             .now()
+             .millisecondsSinceEpoch
+             .toString();
+         final firebaseStorageRef = FirebaseStorage.instance.ref().child(
+             fileName);
+         var image = File(xfilePick[i].path);
+         final uploadTask = firebaseStorageRef.putFile(image);
 
-    if (xfilePick.isNotEmpty) {
-      widget.analysisimagepath=[];
-      for (var i = 0; i < xfilePick.length; i++) {
+         final snapshot = await uploadTask.whenComplete(() {});
 
-        widget.analysisimagepath?.add(xfilePick[i].path);
-      }
-      print(widget.analysisimagepath);
-      setState(
-        () {},
-      );
-    } else {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Nothing is selected')));
-    }
+         if (snapshot.state == TaskState.success) {
+           final downloadURL = await snapshot.ref.getDownloadURL();
+           widget.analysisimagepath?.add(downloadURL);
+           setState(() {
+
+           });
+         } else {
+           widget.analysisimagepath?[i] = null;
+           setState(() {
+           });
+         }
+       }
+       print(widget.analysisimagepath);
+       setState(
+             () {},
+       );
+     } else {
+       ScaffoldMessenger.of(context)
+           .showSnackBar(const SnackBar(content: Text('Nothing is selected')));
+     }
+   }
+   catch(e) {
+
+     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('uploading image failed')));
+   }
+
+
+
   }
 }

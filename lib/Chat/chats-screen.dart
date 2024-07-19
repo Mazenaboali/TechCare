@@ -8,6 +8,7 @@ import 'package:tech_care/Chat/chat-screen.dart';
 import 'package:tech_care/Provider/get-data-provider.dart';
 import 'package:tech_care/database/My%20database.dart';
 import 'package:tech_care/database/Patient.dart';
+import 'package:tech_care/database/messages.dart';
 
 import '../database/Doctor.dart';
 
@@ -28,9 +29,9 @@ class ChatsScreen extends StatelessWidget {
           .fetchData(doctordocument: receiver, patientdocument: sender);
     }
 
-    return StreamBuilder<QuerySnapshot>(
+    return StreamBuilder<QuerySnapshot<Message>>(
       stream: MyDatabase.getMessages(),
-      builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+      builder:  (buildcontext, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: CircularProgressIndicator());
         }
@@ -40,35 +41,34 @@ class ChatsScreen extends StatelessWidget {
           return Center(child: Text('No Chats yet'));
         }
 
-        List<DocumentSnapshot> messages = snapshot.data!.docs;
+        var messages = snapshot.data?.docs.map((doc) => doc.data()).toList();;
 
-        List<Map<String, dynamic>> dataMatchs = [];
-        print(messages.length);
-        for (int i = 0; i < messages.length; i++) {
-          Map<String, dynamic> data =
-              messages[i].data() as Map<String, dynamic>;
-          if (data['sender'] == user?.email ||
-              data['receiver'] == user?.email) {
-            dataMatchs.add(data);
+        List<Message> dataMatchs = [];
+        print(messages?.length);
+        for (int i = 0; i < messages!.length; i++) {
+          Message message = messages[i];
+          if (message.sender == user?.email ||
+              message.receiver == user?.email) {
+            dataMatchs.add(message);
           }
         }
 
         print(dataMatchs.length);
         for (int index = 0; index < dataMatchs.length; index++) {
-          if (dataMatchs[index]['sender'] != user?.email) {
+          if (dataMatchs[index].sender != user?.email) {
 
-            friendsImagePath.putIfAbsent(dataMatchs[index]['senderName'], () => dataMatchs[index]['senderImagePath']);
-            friendsemail.add(dataMatchs[index]['sender']);
-            if(dataMatchs[index]['senderName']!=null){
-              friends.add(dataMatchs[index]['senderName']);
+            friendsImagePath.putIfAbsent(dataMatchs[index].senderName??"", () => dataMatchs[index].senderImagePath);
+            friendsemail.add(dataMatchs[index].sender??"");
+            if(dataMatchs[index].senderName!=null){
+              friends.add(dataMatchs[index].senderName??"");
             }
 
           } else {
-            print(dataMatchs[index]['receiverImagePath']);
-            friendsImagePath[dataMatchs[index]['receiverName']]=dataMatchs[index]['receiverImagePath'] ;
-            friendsemail.add(dataMatchs[index]['receiver']);
-            if(dataMatchs[index]['receiverName']!=null) {
-              friends.add(dataMatchs[index]['receiverName']);
+            print(dataMatchs[index].receiverImagePath);
+            friendsImagePath[dataMatchs[index].receiverName??""]=dataMatchs[index].receiverImagePath ;
+            friendsemail.add(dataMatchs[index].receiver??"");
+            if(dataMatchs[index].receiverName!=null) {
+              friends.add(dataMatchs[index].receiverName??"");
             }
           }
         }
@@ -115,12 +115,12 @@ class ChatsScreen extends StatelessWidget {
               String lastMessage="";
               String lastMessageDate = "";
               for (int i = 0; i < dataMatchs.length; i++) {
-                if (dataMatchs[i]['receiver'] == usersEmail[index] ||
-                    dataMatchs[i]['sender'] == usersEmail[index]) {
-                  lastMessage = dataMatchs[i]['content'];
+                if (dataMatchs[i].receiver == usersEmail[index] ||
+                    dataMatchs[i].sender == usersEmail[index]) {
+                  lastMessage = dataMatchs[i].content??"";
                   List<String> lines = lastMessage.split('\n');
                   lastMessage= lines.first;
-                  Timestamp timestamp = dataMatchs[i]['timestamp'];
+                  Timestamp timestamp = dataMatchs[i].timestamp;
                   DateTime dateTime = timestamp.toDate();
                   lastMessageDate = dateTime.day.toString() +
                       "/" +
@@ -171,13 +171,13 @@ class ChatsScreen extends StatelessWidget {
                                   ),
                                 )
                                     : ClipOval(
-                                    child: Image.file(
+                                    child: Image.network(
                                         fit: BoxFit.fill,
                                         height: 50,
                                         width: 50,
-                                        File(
+
                                           friendsImagePath[users[index]]??"" ,
-                                        ))),
+                                        )),
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(10),
@@ -198,13 +198,13 @@ class ChatsScreen extends StatelessWidget {
                                               fontWeight: FontWeight.w500),
                                         ),
                                         Container(
-                                          width: 30,
+                                          width: 10,
                                         ),
                                         Text(
                                           lastMessageDate,
                                           style: TextStyle(
                                               color: Color(0xffC5BDBD),
-                                              fontSize: 14,
+                                              fontSize: 12,
                                               fontWeight: FontWeight.w400),
                                         ),
                                       ],

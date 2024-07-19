@@ -1,20 +1,20 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tech_care/Components/custom_button_auth.dart';
 import 'package:tech_care/Components/custom_form_field.dart';
 import 'package:tech_care/HomeScreen/doctor_home_screen.dart';
-import 'package:tech_care/HomeScreen/patient_home_screen.dart';
 import 'package:tech_care/database/Doctor.dart';
 import 'package:tech_care/database/My%20database.dart';
 
 class DoctorFormScreen extends StatefulWidget {
   String name;
-
+  var image;
+  String? imageUrl;
   DoctorFormScreen({required this.name});
 
   final _medicalSpecialties = [
@@ -170,21 +170,19 @@ class _DoctorFormScreenState extends State<DoctorFormScreen> {
                             width: 110,
                           ),
                         )
-                            : ClipOval(
-                            child: Image.file(
-                                fit: BoxFit.fill,
-                                height: 105,
-                                width: 105,
-                                File(
-                                  widget.profileimagepath,
-                                ))),
+                            : Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ClipOval(
+                              child: Image.network(widget.imageUrl!,width: 155,height: 155,fit: BoxFit.fill,)
+                          ),
+                        ),
                         Container(height: 10,),
                         Container(
                           width: 107,
                           height: 42,
                           child: MaterialButton(
                             onPressed: () {
-                              getImage();
+                              uploadImage();
                             },
                             child: Row(
                               children: [
@@ -485,8 +483,7 @@ class _DoctorFormScreenState extends State<DoctorFormScreen> {
                   insertDoctor();
                   Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) =>
-                      DoctorHomeScreen()
+                      MaterialPageRoute(builder: (context) => DoctorHomeScreen()
                   )
                   );
                 },)
@@ -536,17 +533,44 @@ class _DoctorFormScreenState extends State<DoctorFormScreen> {
       });
     }
   }
-  Future getImage() async {
-    ImagePicker picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    XFile? xfilePick = pickedFile;
-    if (xfilePick != null) {
-      FirebaseFirestore.instance
-          .collection('patient')
-          .doc(widget.user?.email ?? "")
-          .update({'profileimagepath': xfilePick.path});
+
+
+  void uploadImage() async {
+    final pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+
+    if (pickedImage != null) {
+      setState(() {
+        widget.image = File(pickedImage.path);
+      });
+      try {
+
+        final fileName = DateTime.now().millisecondsSinceEpoch.toString();
+        final firebaseStorageRef = FirebaseStorage.instance.ref().child(fileName);
+        final uploadTask = firebaseStorageRef.putFile(widget.image!);
+
+        final snapshot = await uploadTask.whenComplete(() {});
+
+        if (snapshot.state == TaskState.success) {
+          final downloadURL = await snapshot.ref.getDownloadURL();
+          widget.imageUrl=downloadURL;
+          setState(() {
+
+          });
+        } else {
+          widget.imageUrl=null;
+          setState(() {
+
+          });
+        }
+      } catch (ex) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('uploading image failed')));
+      }
     }
-    widget.profileimagepath = xfilePick?.path ?? "";
-    setState(() {});
+    else{
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('no images selected')));
+    }
+    print(widget.imageUrl);
+
   }
+
 }

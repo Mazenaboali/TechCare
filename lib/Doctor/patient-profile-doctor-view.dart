@@ -9,7 +9,7 @@ import 'package:tech_care/Components/custom_button_auth.dart';
 import 'package:tech_care/HomeScreen/doctor_home_screen.dart';
 import 'package:tech_care/database/My%20database.dart';
 import 'package:tech_care/database/Patient.dart';
-import 'package:tech_care/doctor-profile.dart';
+import 'package:tech_care/Doctor/doctor-profile.dart';
 
 class PatientProfileDoctorView extends StatefulWidget {
   static String routeName = "PatientProfileDoctorView";
@@ -79,10 +79,8 @@ class _PatientProfileDoctorViewState extends State<PatientProfileDoctorView> {
                   onPressed: () {
                     Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) =>
-                            ChatsScreen('doctor')
-                        )
-                    );
+                        MaterialPageRoute(
+                            builder: (context) => ChatsScreen('doctor')));
                   },
                 ),
                 Text(
@@ -172,13 +170,12 @@ class _PatientProfileDoctorViewState extends State<PatientProfileDoctorView> {
                                 ),
                               )
                             : ClipOval(
-                                child: Image.file(
-                                    fit: BoxFit.fill,
-                                    height: 105,
-                                    width: 105,
-                                    File(
-                                      data?.profileimagepath ?? "",
-                                    ))),
+                                child: Image.network(
+                                data?.profileimagepath ?? "",
+                                width: 96,
+                                height: 96,
+                                fit: BoxFit.fill,
+                              )),
                       ),
                       SizedBox(
                         width: 20,
@@ -235,7 +232,6 @@ class _PatientProfileDoctorViewState extends State<PatientProfileDoctorView> {
                                       identifyUser: widget.identifyUser,
                                       receiverName: widget.patientName,
                                       receiverImagePath: data?.profileimagepath,
-
                                     )));
                       },
                       child: Text(

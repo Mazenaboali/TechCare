@@ -1,14 +1,11 @@
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:tech_care/Chat/chats-screen.dart';
-import 'package:tech_care/Components/custom_button_auth.dart';
 import 'package:tech_care/Doctor/examination-doctor-view.dart';
 import 'package:tech_care/Doctor/medical-history-of-the-patient-with-other-doctor.dart';
-import 'package:tech_care/LoginScreen/login_screen.dart';
-import 'package:tech_care/doctor-profile.dart';
-import 'package:tech_care/examination_form.dart';
+import 'package:tech_care/Doctor/doctor-profile.dart';
 class DoctorHomeScreen extends StatefulWidget {
   static String routeName="DoctorHomeScreen";
   String identifyUser="doctor";
@@ -17,7 +14,6 @@ class DoctorHomeScreen extends StatefulWidget {
 }
 
 class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
-
   String _scanresult="";
   @override
   Widget build(BuildContext context) {
