@@ -6,11 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tech_care/Chat/chat-screen.dart';
 import 'package:tech_care/Provider/get-data-provider.dart';
-import 'package:tech_care/database/My%20database.dart';
-import 'package:tech_care/database/Patient.dart';
-import 'package:tech_care/database/messages.dart';
+import 'package:tech_care/data/data%20base/My%20database.dart';
+import 'package:tech_care/database/PatientDTO.dart';
+import 'package:tech_care/database/messageDTO.dart';
 
-import '../database/Doctor.dart';
+import '../database/DoctorDTO.dart';
 
 class ChatsScreen extends StatelessWidget {
   static String routeName = "ChatsScreen";
@@ -29,7 +29,7 @@ class ChatsScreen extends StatelessWidget {
           .fetchData(doctordocument: receiver, patientdocument: sender);
     }
 
-    return StreamBuilder<QuerySnapshot<Message>>(
+    return StreamBuilder<QuerySnapshot<MessageDTO>>(
       stream: MyDatabase.getMessages(),
       builder:  (buildcontext, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -43,10 +43,10 @@ class ChatsScreen extends StatelessWidget {
 
         var messages = snapshot.data?.docs.map((doc) => doc.data()).toList();;
 
-        List<Message> dataMatchs = [];
+        List<MessageDTO> dataMatchs = [];
         print(messages?.length);
         for (int i = 0; i < messages!.length; i++) {
-          Message message = messages[i];
+          MessageDTO message = messages[i];
           if (message.sender == user?.email ||
               message.receiver == user?.email) {
             dataMatchs.add(message);

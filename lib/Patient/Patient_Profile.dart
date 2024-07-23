@@ -1,15 +1,13 @@
 import 'dart:io';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:readmore/readmore.dart';
 import 'package:tech_care/Chat/chats-screen.dart';
-import 'package:tech_care/Components/custom_button_auth.dart';
-import 'package:tech_care/HomeScreen/patient_home_screen.dart';
-import 'package:tech_care/LoginScreen/login_screen.dart';
-import 'package:tech_care/database/My%20database.dart';
-import 'package:tech_care/database/Patient.dart';
+import 'package:tech_care/data/data%20base/My%20database.dart';
+import 'package:tech_care/database/PatientDTO.dart';
+import 'package:tech_care/presentation/Components/custom_button_auth.dart';
+import 'package:tech_care/presentation/HomeScreen/patient_home_screen.dart';
+import 'package:tech_care/presentation/LoginScreen/login_screen.dart';
 
 class PatientProfile extends StatefulWidget {
   static String routeName = "PatientProfile";
@@ -173,7 +171,7 @@ class _PatientProfileState extends State<PatientProfile> {
           ],
         ),
       ),
-      body: FutureBuilder<Patient?>(
+      body: FutureBuilder<PatientDTO?>(
           future: MyDatabase.getPatientData(widget.user!.email ?? ""),
           builder: (buildContext, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {

@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'dart:ui';
 
 import 'package:image_picker/image_picker.dart';
-import 'package:tech_care/Components/dash-border-button.dart';
-import 'package:tech_care/utils/dialog_utils.dart';
+import 'package:tech_care/domain/utils/dialog_utils.dart';
+import 'package:tech_care/presentation/Components/dash-border-button.dart';
 
 class ReviewExaminationOrAddAnalysis extends StatefulWidget {
   String? doctorImagePath;

@@ -3,16 +3,14 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:tech_care/Chat/chats-screen.dart';
-import 'package:tech_care/Components/custom_button_auth.dart';
-import 'package:tech_care/Components/examination_widget.dart';
-import 'package:tech_care/HomeScreen/patient_home_screen.dart';
 import 'package:tech_care/Patient/Patient_Profile.dart';
 import 'package:tech_care/Patient/Review-examination-or-add%20analysis.dart';
-import 'package:tech_care/Provider/get-data-provider.dart';
-import 'package:tech_care/database/My%20database.dart';
-import 'package:tech_care/database/examination.dart';
+import 'package:tech_care/data/data%20base/My%20database.dart';
+import 'package:tech_care/database/examinationDTO.dart';
+import 'package:tech_care/presentation/Components/custom_button_auth.dart';
+import 'package:tech_care/presentation/Components/examination_widget.dart';
+import 'package:tech_care/presentation/HomeScreen/patient_home_screen.dart';
 
 class MedicalHistoryPatientViewScreen extends StatefulWidget {
   static String routeName = "MedicalHistoryPatientViewScreen";
@@ -125,7 +123,7 @@ class _MedicalHistoryPatientViewScreenState
         ),
       ),
       backgroundColor: Colors.white,
-      body: FutureBuilder<List<Examination>>(
+      body: FutureBuilder<List<ExaminationDTO>>(
           future: MyDatabase.getExaminations('patient',user?.email ?? ""),
           builder: (buildContext, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {

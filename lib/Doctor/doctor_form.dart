@@ -5,11 +5,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:tech_care/Components/custom_button_auth.dart';
-import 'package:tech_care/Components/custom_form_field.dart';
-import 'package:tech_care/HomeScreen/doctor_home_screen.dart';
-import 'package:tech_care/database/Doctor.dart';
-import 'package:tech_care/database/My%20database.dart';
+import 'package:tech_care/database/DoctorDTO.dart';
+import 'package:tech_care/data/data%20base/My%20database.dart';
+import 'package:tech_care/presentation/Components/custom_button_auth.dart';
+import 'package:tech_care/presentation/Components/custom_form_field.dart';
+import 'package:tech_care/presentation/HomeScreen/doctor_home_screen.dart';
 
 class DoctorFormScreen extends StatefulWidget {
   String name;
@@ -493,7 +493,7 @@ class _DoctorFormScreenState extends State<DoctorFormScreen> {
         ));
   }
   void insertDoctor(){
-    Doctor doctor=Doctor(email: widget.user?.email??"",
+    DoctorDTO doctor=DoctorDTO(email: widget.user?.email??"",
         name:widget.name ,
         phonenumber:phonenumber.text ,
         specialist: _medicalSpecialtiesdropdownvalue,

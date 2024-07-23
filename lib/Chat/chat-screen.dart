@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 import 'package:tech_care/Chat/build-chat-list.dart';
-import 'package:tech_care/Chat/message-input-field.dart';
+import 'package:tech_care/presentation/Components/message-input-field.dart';
 import 'package:tech_care/Provider/get-data-provider.dart';
-import 'package:tech_care/database/My%20database.dart';
-import 'package:tech_care/database/messages.dart';
+import 'package:tech_care/data/data%20base/My%20database.dart';
+import 'package:tech_care/database/messageDTO.dart';
 
 class ChatScreen extends StatefulWidget {
   final String receiverEmail;
@@ -59,7 +59,7 @@ class _ChatScreenState extends State<ChatScreen> {
         DateTime.now().year.toString();
     if (messageContent.isNotEmpty) {
       try {
-        Message message = Message(
+        MessageDTO message = MessageDTO(
             sender: widget.senderEmail,
             receiver: widget.receiverEmail,
             content: messageContent,

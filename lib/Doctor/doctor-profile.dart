@@ -3,12 +3,12 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:readmore/readmore.dart';
-import 'package:tech_care/HomeScreen/doctor_home_screen.dart';
-import 'package:tech_care/LoginScreen/login_screen.dart';
-import 'package:tech_care/database/Doctor.dart';
-import 'package:tech_care/database/My%20database.dart';
+import 'package:tech_care/database/DoctorDTO.dart';
+import 'package:tech_care/data/data%20base/My%20database.dart';
+import 'package:tech_care/presentation/Components/custom_button_auth.dart';
+import 'package:tech_care/presentation/HomeScreen/doctor_home_screen.dart';
+import 'package:tech_care/presentation/LoginScreen/login_screen.dart';
 
-import '../Components/custom_button_auth.dart';
 
 class DoctorProfileScreen extends StatefulWidget {
   static String routeName = "DoctorProfileScreen";
@@ -172,7 +172,7 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
           ],
         ),
       ),
-      body: FutureBuilder<Doctor?>(
+      body: FutureBuilder<DoctorDTO?>(
           future: MyDatabase.getDoctorData(widget.user!.email ?? ""),
           builder: (buildContext, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {

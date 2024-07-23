@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:tech_care/Chat/chats-screen.dart';
-import 'package:tech_care/Components/custom_button_auth.dart';
-import 'package:tech_care/Components/examination_widget.dart';
 import 'package:tech_care/Doctor/Review-examination.dart';
-import 'package:tech_care/HomeScreen/doctor_home_screen.dart';
-import 'package:tech_care/database/My%20database.dart';
-import 'package:tech_care/database/examination.dart';
+import 'package:tech_care/data/data%20base/My%20database.dart';
+import 'package:tech_care/database/examinationDTO.dart';
 import 'package:tech_care/Doctor/doctor-profile.dart';
 import 'package:tech_care/Doctor/examination_form.dart';
+import 'package:tech_care/presentation/Components/custom_button_auth.dart';
+import 'package:tech_care/presentation/Components/examination_widget.dart';
+import 'package:tech_care/presentation/HomeScreen/doctor_home_screen.dart';
 
 class MedicalHistoryOfThePatientWithOtherDoctorScreen extends StatefulWidget{
   static String routeName="MedicalHistoryOfThePatientWithOtherDoctorScreen";
@@ -131,7 +131,7 @@ class _MedicalHistoryOfThePatientWithOtherDoctorScreenState extends State<Medica
         ),
       ),
       backgroundColor: Colors.white,
-      body: FutureBuilder<List<Examination>>(
+      body: FutureBuilder<List<ExaminationDTO>>(
           future: MyDatabase.getExaminations('patient',widget.qrcoderesult),
           builder: (buildContext, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {

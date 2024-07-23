@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:readmore/readmore.dart';
 import 'package:tech_care/Chat/chat-screen.dart';
 import 'package:tech_care/Chat/chats-screen.dart';
-import 'package:tech_care/Components/custom_button_auth.dart';
-import 'package:tech_care/HomeScreen/patient_home_screen.dart';
 import 'package:tech_care/Patient/Patient_Profile.dart';
-import 'package:tech_care/database/Doctor.dart';
-import 'package:tech_care/database/My%20database.dart';
+import 'package:tech_care/database/DoctorDTO.dart';
+import 'package:tech_care/data/data%20base/My%20database.dart';
+import 'package:tech_care/presentation/Components/custom_button_auth.dart';
+import 'package:tech_care/presentation/HomeScreen/patient_home_screen.dart';
 
 class DoctorProfilePatientViewScreen extends StatefulWidget {
   static String routeName = "DoctorProfilePatientViewScreen";
@@ -117,7 +117,7 @@ class _DoctorProfilePatientViewScreenState
           ],
         ),
       ),
-      body: FutureBuilder<Doctor?>(
+      body: FutureBuilder<DoctorDTO?>(
           future: MyDatabase.getDoctorData(widget.doctoremail),
           builder: (buildContext, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {

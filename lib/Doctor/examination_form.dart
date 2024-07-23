@@ -7,13 +7,11 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:tech_care/Components/custom_button_auth.dart';
-import 'package:tech_care/Components/dash-border-button.dart';
 import 'package:tech_care/Provider/get-data-provider.dart';
-import 'package:tech_care/database/My%20database.dart';
-import 'package:tech_care/database/examination.dart';
-import 'package:tech_care/utils/date%20utils.dart';
-import 'package:tech_care/utils/dialog_utils.dart';
+import 'package:tech_care/data/data%20base/My%20database.dart';
+import 'package:tech_care/database/examinationDTO.dart';
+import 'package:tech_care/domain/utils/dialog_utils.dart';
+import 'package:tech_care/presentation/Components/dash-border-button.dart';
 
 import '../Provider/get-data-provider.dart';
 
@@ -489,7 +487,7 @@ class _ExaminationFormState extends State<ExaminationForm> {
     } else {
       widget.dateTime += 'PM';
     }
-    Examination examination = Examination(
+    ExaminationDTO examination = ExaminationDTO(
         doctorname: widget.doctorname ?? "",
         doctoradress: widget.doctoradress ?? "",
         date: widget.dateTime,

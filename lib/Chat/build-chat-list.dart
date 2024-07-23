@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:tech_care/database/My%20database.dart';
-import 'package:tech_care/database/messages.dart';
+import 'package:tech_care/data/data%20base/My%20database.dart';
+import 'package:tech_care/database/messageDTO.dart';
 
 class BuildChatList extends StatefulWidget
 {
@@ -23,7 +23,7 @@ class _BuildChatListState extends State<BuildChatList> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return  StreamBuilder<QuerySnapshot<Message>>(
+    return  StreamBuilder<QuerySnapshot<MessageDTO>>(
       stream: MyDatabase.getMessages(),
       builder:  (buildcontext, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {

@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
-import 'package:tech_care/database/Doctor.dart';
-import 'package:tech_care/database/My%20database.dart';
-import 'package:tech_care/database/Patient.dart';
+import 'package:tech_care/database/DoctorDTO.dart';
+import 'package:tech_care/data/data%20base/My%20database.dart';
+import 'package:tech_care/database/PatientDTO.dart';
 
 class MyDataProvider with ChangeNotifier{
 
    bool uploadprescriptionState=false;
    bool writeprescriptionState=false;
-   Patient? patientdata;
-   Doctor? doctordata;
+   PatientDTO? patientdata;
+   DoctorDTO? doctordata;
 
    Future<void> fetchData({required String patientdocument,required String doctordocument})async{
      patientdata=await MyDatabase.getPatientData(patientdocument);
