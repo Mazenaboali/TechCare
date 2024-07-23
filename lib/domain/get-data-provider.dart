@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:tech_care/database/DoctorDTO.dart';
+import 'package:tech_care/data/model/DoctorDTO.dart';
 import 'package:tech_care/data/data%20base/My%20database.dart';
-import 'package:tech_care/database/PatientDTO.dart';
+import 'package:tech_care/data/model/PatientDTO.dart';
 
 class MyDataProvider with ChangeNotifier{
 

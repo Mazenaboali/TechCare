@@ -1,92 +1,41 @@
 import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:readmore/readmore.dart';
-import 'package:tech_care/Chat/chats-screen.dart';
+import 'package:tech_care/presentation/Chat/chat-screen.dart';
+import 'package:tech_care/presentation/Chat/chats-screen.dart';
 import 'package:tech_care/data/data%20base/My%20database.dart';
-import 'package:tech_care/database/PatientDTO.dart';
+import 'package:tech_care/data/model/PatientDTO.dart';
+import 'package:tech_care/presentation/Doctor/doctor-profile.dart';
 import 'package:tech_care/presentation/Components/custom_button_auth.dart';
-import 'package:tech_care/presentation/HomeScreen/patient_home_screen.dart';
-import 'package:tech_care/presentation/LoginScreen/login_screen.dart';
+import 'package:tech_care/presentation/HomeScreen/doctor_home_screen.dart';
 
-class PatientProfile extends StatefulWidget {
-  static String routeName = "PatientProfile";
+class PatientProfileDoctorView extends StatefulWidget {
+  static String routeName = "PatientProfileDoctorView";
+  String patienemail;
+  String patientName = "";
+  String? patientProfileImagePath;
+  String identifyUser = "doctor";
   var user = FirebaseAuth.instance.currentUser;
+  PatientProfileDoctorView({required this.patienemail});
+
   @override
-  State<PatientProfile> createState() => _PatientProfileState();
+  State<PatientProfileDoctorView> createState() =>
+      _PatientProfileDoctorViewState();
 }
 
-class _PatientProfileState extends State<PatientProfile> {
+class _PatientProfileDoctorViewState extends State<PatientProfileDoctorView> {
+  @override
   @override
   Widget build(BuildContext context) {
+    // TODO: implement build
     return Scaffold(
       appBar: AppBar(
-        title: Text('profile',
+        elevation: 2,
+        title: Text('patient profile',
             style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20)),
         centerTitle: true,
-
-      ),
-      drawer: Drawer(
-        child: Column(
-          children: [
-            Container(
-              padding: EdgeInsets.all(40),
-              color: Color(0xff047676),
-              height: 110,
-              width: double.infinity,
-              child: Text(
-                'TechCare',
-                style: TextStyle(
-                  fontSize: 24,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
-              ),
-
-            ),
-           Container(height:  MediaQuery.of(context).size.height/1.3),
-            MaterialButton(
-                onPressed: () async {
-                  await FirebaseAuth.instance.signOut();
-                  Navigator.pushReplacementNamed(
-                      context, LoginScreen.routeName);
-                },
-                child: Container(
-                  width: 190,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(32),
-                    gradient: LinearGradient(
-                      colors: [
-                        Color(0xFF023535),
-                        Color(0xFF069B9B),
-                      ],
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                    ),
-                  ),
-                  child: Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('LogOut',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500
-                        
-                          ),
-                        ),
-                        Container(width: 10,),
-                        Icon(Icons.logout,color: Colors.white,)
-                      ],
-                    ),
-                  ),
-                )
-            ),
-          ],
-        ),
       ),
       bottomNavigationBar: BottomAppBar(
         elevation: 0.1,
@@ -100,13 +49,13 @@ class _PatientProfileState extends State<PatientProfile> {
               children: [
                 IconButton(
                   icon: Image.asset(
-                    'assets/images/home-icon.png',
+                    'assets/images/filled-home-icon.png',
                     height: 24,
                     width: 24,
                   ),
                   onPressed: () {
                     Navigator.pushReplacementNamed(
-                        context, PatientHomeScreen.routeName);
+                        context, DoctorHomeScreen.routeName);
                   },
                 ),
                 Text(
@@ -114,7 +63,7 @@ class _PatientProfileState extends State<PatientProfile> {
                   style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 12,
-                      color: Color(0xff7A7979)),
+                      color: Color(0xff058383)),
                 )
               ],
             ),
@@ -130,10 +79,8 @@ class _PatientProfileState extends State<PatientProfile> {
                   onPressed: () {
                     Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) =>
-                            ChatsScreen('patient')
-                        )
-                    );
+                        MaterialPageRoute(
+                            builder: (context) => ChatsScreen('doctor')));
                   },
                 ),
                 Text(
@@ -150,21 +97,21 @@ class _PatientProfileState extends State<PatientProfile> {
               children: [
                 IconButton(
                   icon: Image.asset(
-                    'assets/images/filled-profile-icon.png',
+                    'assets/images/profile-icon.png',
                     height: 24,
                     width: 24,
                   ),
                   onPressed: () {
                     Navigator.pushReplacementNamed(
-                        context, PatientProfile.routeName);
+                        context, DoctorProfileScreen.routeName);
                   },
                 ),
                 Text(
-                  'profile',
+                  'Chat',
                   style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 12,
-                      color: Color(0xff058383)),
+                      color: Color(0xff7A7979)),
                 )
               ],
             ),
@@ -172,7 +119,7 @@ class _PatientProfileState extends State<PatientProfile> {
         ),
       ),
       body: FutureBuilder<PatientDTO?>(
-          future: MyDatabase.getPatientData(widget.user!.email ?? ""),
+          future: MyDatabase.getPatientData(widget.patienemail),
           builder: (buildContext, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Container(
@@ -181,47 +128,55 @@ class _PatientProfileState extends State<PatientProfile> {
               ));
             }
             var data = snapshot.data;
+            print(widget.patienemail);
+            print('pp');
             if (snapshot.hasError) {
               return Center(
-                  child: Column(
-                children: [
-                  Text(
-                    'Error Loading data',
-                    style: TextStyle(color: Colors.red),
-                  ),
-                  Container(
-                    child: CustomButtonAuth(
-                        title: 'Try again',
-                        onPressed: () {
-                          setState(() {});
-                        }),
-                  ),
-                ],
-              ));
+                child: Column(
+                  children: [
+                    Text(
+                      'Error Loading data',
+                      style: TextStyle(color: Colors.red),
+                    ),
+                    Container(
+                      child: CustomButtonAuth(
+                          title: 'Try again',
+                          onPressed: () {
+                            setState(() {});
+                          }),
+                    ),
+                  ],
+                ),
+              );
             }
-
-
+            print(data?.profileimagepath);
+            widget.patientName = data?.name ?? "";
             return SingleChildScrollView(
               child: Column(
                 children: [
                   Row(
                     children: [
-
-                      data?.profileimagepath == null|| data?.profileimagepath==""
-                          ? ClipOval(
-                              child: Image.asset(
-                                "assets/images/profile.png",
-                                height: 105,
-                                width: 105,
-                              ),
-                            )
-                          : ClipOval(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: ClipOval(
-                                    child: Image.network(data?.profileimagepath??"",width: 105,height: 105,fit: BoxFit.fill,)
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 30),
+                        child: data?.profileimagepath == null
+                            ? ClipOval(
+                                child: Image.asset(
+                                  "assets/images/profile.png",
+                                  height: 96,
+                                  width: 96,
                                 ),
+                              )
+                            : ClipOval(
+                                child: Image.network(
+                                data?.profileimagepath ?? "",
+                                width: 96,
+                                height: 96,
+                                fit: BoxFit.fill,
                               )),
+                      ),
                       SizedBox(
                         width: 20,
                       ),
@@ -232,7 +187,6 @@ class _PatientProfileState extends State<PatientProfile> {
                             height: 40,
                           ),
                           Text(
-                            overflow: TextOverflow.ellipsis,
                             data?.name ?? "_",
                             style: TextStyle(
                               fontSize: 16,
@@ -242,25 +196,13 @@ class _PatientProfileState extends State<PatientProfile> {
                           SizedBox(
                             height: 10,
                           ),
-                          Row(
-                            children: [
-                              Text(
-                                textAlign: TextAlign.start,
-                                data?.age ?? "_",
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Text(
-                                textAlign: TextAlign.start,
-                                ' years',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ],
+                          Text(
+                            textAlign: TextAlign.start,
+                            data?.age ?? "_" + ' Years',
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                           SizedBox(
                             height: 10,
@@ -276,7 +218,38 @@ class _PatientProfileState extends State<PatientProfile> {
                       ),
                     ],
                   ),
-
+                  Container(
+                    width: 150,
+                    height: 32,
+                    child: MaterialButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ChatScreen(
+                                      receiverEmail: widget.patienemail,
+                                      senderEmail: widget.user?.email ?? "",
+                                      identifyUser: widget.identifyUser,
+                                      receiverName: widget.patientName,
+                                      receiverImagePath: data?.profileimagepath,
+                                    )));
+                      },
+                      child: Text(
+                        'Send Message',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12,
+                          color: Colors.white,
+                        ),
+                      ),
+                      color: Color(0xff047676),
+                      height: 32,
+                      minWidth: 113,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                  ),
                   SizedBox(
                     height: 30,
                   ),
@@ -442,5 +415,4 @@ class _PatientProfileState extends State<PatientProfile> {
           }),
     );
   }
-
 }

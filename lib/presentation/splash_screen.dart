@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tech_care/data/data%20base/My%20database.dart';
-import 'package:tech_care/database/PatientDTO.dart';
+import 'package:tech_care/data/model/PatientDTO.dart';
 import 'package:tech_care/presentation/HomeScreen/doctor_home_screen.dart';
 import 'package:tech_care/presentation/HomeScreen/patient_home_screen.dart';
 import 'package:tech_care/presentation/LoginScreen/login_screen.dart';

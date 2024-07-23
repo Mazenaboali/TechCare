@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:readmore/readmore.dart';
-import 'package:tech_care/database/DoctorDTO.dart';
+import 'package:tech_care/data/model/DoctorDTO.dart';
 import 'package:tech_care/data/data%20base/My%20database.dart';
 import 'package:tech_care/presentation/Components/custom_button_auth.dart';
 import 'package:tech_care/presentation/HomeScreen/doctor_home_screen.dart';

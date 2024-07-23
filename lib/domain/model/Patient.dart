@@ -1,4 +1,4 @@
-import 'package:tech_care/database/PatientDTO.dart';
+import 'package:tech_care/data/model/PatientDTO.dart';
 
 class Patient {
   String? email;

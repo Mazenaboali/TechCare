@@ -2,10 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:tech_care/Chat/chats-screen.dart';
-import 'package:tech_care/Doctor/examination-doctor-view.dart';
-import 'package:tech_care/Doctor/medical-history-of-the-patient-with-other-doctor.dart';
-import 'package:tech_care/Doctor/doctor-profile.dart';
+import 'package:tech_care/presentation/Chat/chats-screen.dart';
+import 'package:tech_care/presentation/Doctor/examination-doctor-view.dart';
+import 'package:tech_care/presentation/Doctor/medical-history-of-the-patient-with-other-doctor.dart';
+import 'package:tech_care/presentation/Doctor/doctor-profile.dart';
 class DoctorHomeScreen extends StatefulWidget {
   static String routeName="DoctorHomeScreen";
   String identifyUser="doctor";

@@ -4,13 +4,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tech_care/Chat/chat-screen.dart';
-import 'package:tech_care/Provider/get-data-provider.dart';
+import 'package:tech_care/presentation/Chat/chat-screen.dart';
+import 'package:tech_care/domain/get-data-provider.dart';
 import 'package:tech_care/data/data%20base/My%20database.dart';
-import 'package:tech_care/database/PatientDTO.dart';
-import 'package:tech_care/database/messageDTO.dart';
+import 'package:tech_care/data/model/PatientDTO.dart';
+import 'package:tech_care/data/model/messageDTO.dart';
 
-import '../database/DoctorDTO.dart';
+import '../../data/model/DoctorDTO.dart';
 
 class ChatsScreen extends StatelessWidget {
   static String routeName = "ChatsScreen";

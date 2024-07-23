@@ -1,10 +1,10 @@
 
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tech_care/database/DoctorDTO.dart';
-import 'package:tech_care/database/PatientDTO.dart';
-import 'package:tech_care/database/examinationDTO.dart';
-import 'package:tech_care/database/messageDTO.dart';
+import 'package:tech_care/data/model/DoctorDTO.dart';
+import 'package:tech_care/data/model/PatientDTO.dart';
+import 'package:tech_care/data/model/examinationDTO.dart';
+import 'package:tech_care/data/model/messageDTO.dart';
 
 class MyDatabase {
    void insertPatient(String document, PatientDTO patient) async {

@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:tech_care/Doctor/patient-profile-doctor-view.dart';
-import 'package:tech_care/Patient/doctor-profile-patient-view.dart';
-import 'package:tech_care/database/examinationDTO.dart';
+import 'package:tech_care/presentation/Doctor/patient-profile-doctor-view.dart';
+import 'package:tech_care/presentation/Patient/doctor-profile-patient-view.dart';
+import 'package:tech_care/data/model/examinationDTO.dart';
 
 class ExaminationWidget extends StatelessWidget{
   String date;

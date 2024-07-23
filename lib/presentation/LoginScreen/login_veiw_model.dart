@@ -5,7 +5,7 @@ import 'package:tech_care/presentation/Base_view_model.dart';
 import 'package:tech_care/domain/repository/auth_reposatiory_contract.dart';
 import 'package:tech_care/domain/Login_navigator.dart';
 import 'package:tech_care/data/data%20base/My%20database.dart';
-import 'package:tech_care/database/PatientDTO.dart';
+import 'package:tech_care/data/model/PatientDTO.dart';
 import 'package:tech_care/domain/utils/validation_utils.dart';
 
 

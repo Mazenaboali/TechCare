@@ -4,7 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tech_care/data/data%20base/My%20database.dart';
-import 'package:tech_care/database/PatientDTO.dart';
+import 'package:tech_care/data/model/PatientDTO.dart';
 import 'package:tech_care/domain/model/Patient.dart';
 import 'package:tech_care/domain/use%20cases/Login_Use_case.dart';
 import 'package:tech_care/domain/use%20cases/Patient%20use%20cases/insert_patient_use_case.dart';

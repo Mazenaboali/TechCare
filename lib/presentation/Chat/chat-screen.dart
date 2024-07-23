@@ -3,11 +3,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
-import 'package:tech_care/Chat/build-chat-list.dart';
+import 'package:tech_care/presentation/Chat/build-chat-list.dart';
 import 'package:tech_care/presentation/Components/message-input-field.dart';
-import 'package:tech_care/Provider/get-data-provider.dart';
+import 'package:tech_care/domain/get-data-provider.dart';
 import 'package:tech_care/data/data%20base/My%20database.dart';
-import 'package:tech_care/database/messageDTO.dart';
+import 'package:tech_care/data/model/messageDTO.dart';
 
 class ChatScreen extends StatefulWidget {
   final String receiverEmail;

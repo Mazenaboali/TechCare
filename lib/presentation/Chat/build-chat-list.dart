@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tech_care/data/data%20base/My%20database.dart';
-import 'package:tech_care/database/messageDTO.dart';
+import 'package:tech_care/data/model/messageDTO.dart';
 
 class BuildChatList extends StatefulWidget
 {

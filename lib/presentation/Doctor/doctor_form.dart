@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:tech_care/database/DoctorDTO.dart';
+import 'package:tech_care/data/model/DoctorDTO.dart';
 import 'package:tech_care/data/data%20base/My%20database.dart';
 import 'package:tech_care/presentation/Components/custom_button_auth.dart';
 import 'package:tech_care/presentation/Components/custom_form_field.dart';

@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:tech_care/Chat/chats-screen.dart';
-import 'package:tech_care/Patient/Patient_Profile.dart';
-import 'package:tech_care/Patient/Qr%20code%20screen.dart';
-import 'package:tech_care/Patient/medical-history-patient-view.dart';
+import 'package:tech_care/presentation/Chat/chats-screen.dart';
+import 'package:tech_care/presentation/Patient/Patient_Profile.dart';
+import 'package:tech_care/presentation/Patient/Qr%20code%20screen.dart';
+import 'package:tech_care/presentation/Patient/medical-history-patient-view.dart';
 
 class PatientHomeScreen extends StatefulWidget {
   static String routeName = "PatientHomeScreen";
