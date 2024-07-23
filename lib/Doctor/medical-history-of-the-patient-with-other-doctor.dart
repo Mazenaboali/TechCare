@@ -165,7 +165,6 @@ class _MedicalHistoryOfThePatientWithOtherDoctorScreenState extends State<Medica
                   ));
             }
             print(data);
-            print('a7a');
             if (data?.length==0) {
               return Center(
                   child: Center(
